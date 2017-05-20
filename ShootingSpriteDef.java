@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class ShootingSpriteDef extends SpriteDef {
 	boolean canShoot;
@@ -8,12 +9,14 @@ public class ShootingSpriteDef extends SpriteDef {
 	float slashCooldown;
 	float currentTime;
 	float slashCurrentTime;
+	
+	ArrayList<String> powerUps = new ArrayList<>();
 public ShootingSpriteDef(boolean hasGravity){
 		super(hasGravity);
 		canShoot = true;
 		slashing = 0;
 		shootDelay = 150;
-		slashDelay = 150;
+		slashDelay = 300;
 		slashCooldown = 1000;
 		slashCurrentTime =0;
 		currentTime = 0;
