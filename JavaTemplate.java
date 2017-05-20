@@ -69,7 +69,7 @@ public class JavaTemplate {
 
 		// Create the window and OpenGL context.
 		GLWindow window = GLWindow.create(new GLCapabilities(gl2Profile));
-		window.setSize(1000, 800);
+		window.setSize(1600, 1400);
 
 		window.setTitle("Java Template");
 		window.setVisible(true);
@@ -95,9 +95,9 @@ public class JavaTemplate {
 		// Setup OpenGL state.
 		window.getContext().makeCurrent();
 		GL2 gl = window.getGL().getGL2();
-		gl.glViewport(0, 0, 1000, 800);
+		gl.glViewport(0, 0, 1600, 1400);
 		gl.glMatrixMode(GL2.GL_PROJECTION);
-		gl.glOrtho(0, 1000, 800, 0, 0, 100);
+		gl.glOrtho(0, 1600, 1400, 0, 0, 100);
 		gl.glEnable(GL2.GL_TEXTURE_2D);
 		gl.glEnable(GL2.GL_BLEND);
 		gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
@@ -194,7 +194,7 @@ public class JavaTemplate {
 		actors.add(mainCharacter);
 		mainCharacter.spriteTex = glTexImageTGAFile(gl,
 
-				JavaTemplate.class.getResource("/resources/gunManWalkRight0.tga"), mainCharacter.spriteSize);
+				JavaTemplate.class.getResource("/resources/mainCharacter/gunManWalkRight0.tga"), mainCharacter.spriteSize);
 
 		SpriteDef bullet = new SpriteDef(true);
 		bullet.spriteTex = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/bullet.tga"),
@@ -206,7 +206,7 @@ public class JavaTemplate {
 		slime.spritePos[1] = 16 * tileSize[1];
 		slime.spriteActualPos[0] = 35 * tileSize[0];
 		slime.spritePos[0] = 35 * tileSize[0];
-		slime.spriteTex = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/slime/f0.tga"),
+		slime.spriteTex = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/slime/f1.tga"),
 				slime.spriteSize);
 		actors.add(slime);
 
@@ -223,53 +223,71 @@ public class JavaTemplate {
 
 		// item pick ups
 		SpriteDef sword = new SpriteDef(true);
-		sword.spriteTex = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/pickups/sword.tga"),
-				slimeBullet.spriteSize);
+		sword.spriteTex = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/pickups/sword0.tga"),
+				sword.spriteSize);
 		actors.add(sword);
+		
+		FrameDef[] swordFrames = new FrameDef[4];
+		for (int i = 0; i < swordFrames.length; i++) {
+			int[] swordFrameSize = new int[2];
+			int image = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/pickups/sword" + i + ".tga"),
+					swordFrameSize);
+			swordFrames[i] = new FrameDef(image, (float) 0.05, swordFrameSize);
+		}
+		AnimationDef swordAnimation = new AnimationDef(swordFrames);
+
+		AnimationData swordGlow = new AnimationData(swordAnimation, (float) 0.25);
+		sword.animation=swordGlow;
+		
+		
 
 		// set animationDefs for main character for each direction
-		FrameDef[] gunManWalkingDownFrames = new FrameDef[7];
-		for (int i = 0; i < gunManWalkingDownFrames.length; i++) {
+		FrameDef[] slashLeftFrames = new FrameDef[3];
+		for (int i = 0; i < slashLeftFrames.length; i++) {
 			int[] gunManSize = new int[2];
-			int image = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/gunManWalkDown" + i + ".tga"),
+			int image = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/mainCharacter/gunManSlashLeft" + i + ".tga"),
 					gunManSize);
-			gunManWalkingDownFrames[i] = new FrameDef(image, (float) 0.05, gunManSize);
+			slashLeftFrames[i] = new FrameDef(image, (float) 0.05, gunManSize);
 		}
-		AnimationDef gunManWalkingDown = new AnimationDef(gunManWalkingDownFrames);
-
-		FrameDef[] gunManWalkingUpFrames = new FrameDef[7];
-		for (int i = 0; i < gunManWalkingUpFrames.length; i++) {
+		AnimationDef gunSlashLeft = new AnimationDef(slashLeftFrames);
+		
+		FrameDef[] slashRightFrames = new FrameDef[3];
+		for (int i = 0; i < slashRightFrames.length; i++) {
 			int[] gunManSize = new int[2];
-			int image = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/gunManWalkUp" + i + ".tga"),
+			int image = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/mainCharacter/gunManSlashRight" + i + ".tga"),
 					gunManSize);
-			gunManWalkingUpFrames[i] = new FrameDef(image, (float) 0.05, gunManSize);
+			slashRightFrames[i] = new FrameDef(image, (float) 0.05, gunManSize);
 		}
-		AnimationDef gunManWalkingUp = new AnimationDef(gunManWalkingUpFrames);
+		AnimationDef gunSlashRight = new AnimationDef(slashRightFrames);
 
-		FrameDef[] gunManWalkingLeftFrames = new FrameDef[7];
+		FrameDef[] gunManWalkingLeftFrames = new FrameDef[9];
 		for (int i = 0; i < gunManWalkingLeftFrames.length; i++) {
 			int[] gunManSize = new int[2];
-			int image = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/gunManWalkLeft" + i + ".tga"),
+			int image = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/mainCharacter/gunManWalkLeft" + i + ".tga"),
 					gunManSize);
 			gunManWalkingLeftFrames[i] = new FrameDef(image, (float) 0.05, gunManSize);
 		}
 		AnimationDef gunManWalkingLeft = new AnimationDef(gunManWalkingLeftFrames);
 
-		FrameDef[] gunManWalkingRightFrames = new FrameDef[7];
+		FrameDef[] gunManWalkingRightFrames = new FrameDef[9];
 		for (int i = 0; i < gunManWalkingRightFrames.length; i++) {
 			int[] gunManSize = new int[2];
-			int image = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/gunManWalkRight" + i + ".tga"),
+			int image = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/mainCharacter/gunManWalkRight" + i + ".tga"),
 					gunManSize);
+			
 			gunManWalkingRightFrames[i] = new FrameDef(image, (float) 0.05, gunManSize);
+			
 		}
 		AnimationDef gunManWalkingRight = new AnimationDef(gunManWalkingRightFrames);
+		
+		
 
 		AnimationData gunMan = new AnimationData(gunManWalkingRight, (float) 0.25);
 		mainCharacter.animation=gunMan;
 		
 
 		// slime animation
-		FrameDef[] slimeMovementFrames = new FrameDef[9];
+		FrameDef[] slimeMovementFrames = new FrameDef[10];
 		for (int i = 0; i < slimeMovementFrames.length; i++) {
 			int[] slimeSize = new int[2];
 			int image = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/slime/f" + i + ".tga"),
@@ -468,7 +486,7 @@ public class JavaTemplate {
 				}
 				double chanceForAction = Math.random() * 300;
 
-				if (slimes.get(i).animation.index == 2) {
+				if (slimes.get(i).animation.index == 3) {
 					slimes.get(i).animation.update((deltaTimeMS / 500), slimes.get(i));
 					// chance to jump
 					if (chanceForAction >= 100 && chanceForAction < 297) {
@@ -500,7 +518,6 @@ public class JavaTemplate {
 								new float[] { slimes.get(i).spritePos[0] + 16, slimes.get(i).spritePos[1] + 80 },
 								slimeBullet.spriteTex, slimeBullet.spriteSize, 1, run, true, "slime");
 						sB.jumpForce = (float) 1;
-
 						bullets.add((BulletSpriteDef) sB);
 						actors.add(sB);
 
@@ -534,7 +551,7 @@ public class JavaTemplate {
 					}
 				}
 
-				if (slimeAnimationData.index == 3 && !slimes.get(i).touchedGround) {
+				if (slimeAnimationData.index == 4 && !slimes.get(i).touchedGround) {
 
 					// slime.spriteActualPos[1] -= dy;
 
@@ -571,9 +588,9 @@ public class JavaTemplate {
 
 			// GUMAN MOVEMENT CONTROLS && movement
 			if (mainCharacter.health > 0) {
-				if (mainCharacter.slashCurrentTime < mainCharacter.slashDelay && mainCharacter.slashing != 0)
+				if (mainCharacter.slashCurrentTime < mainCharacter.slashDelay){
 					if (mainCharacter.slashing == 1) {
-						mainCharacter.spriteActualPos[0] += 3 * deltaTimeMS;
+						mainCharacter.spriteActualPos[0] += 2 * deltaTimeMS;
 						if (collidesWithBackground(mainCharacter, bground) == 1
 								|| collidesWithBackground(mainCharacter, bground) == -1
 								|| mainCharacter.spriteActualPos[0] >= tileSize[0] * bground.width
@@ -582,15 +599,17 @@ public class JavaTemplate {
 							mainCharacter.spriteActualPos[0] -= 3 * deltaTimeMS;
 
 						} else {
+							gunMan.update((deltaTimeMS / 1000), mainCharacter);
+
 							mainCharacter.spritePos[0] = (int) mainCharacter.spriteActualPos[0];
 							if (camera.spritePos[0] < (tileSize[0] * bground.width - camera.spriteSize[0])) {
-								camera.spriteActualPos[0] += 3 * deltaTimeMS;
+								camera.spriteActualPos[0] += 2 * deltaTimeMS;
 								camera.spritePos[0] = (int) camera.spriteActualPos[0];
 							}
 
 						}
 					} else if (mainCharacter.slashing == -1) {
-						mainCharacter.spriteActualPos[0] -= 3 * deltaTimeMS;
+						mainCharacter.spriteActualPos[0] -= 2 * deltaTimeMS;
 						if (collidesWithBackground(mainCharacter, bground) == 1
 								|| collidesWithBackground(mainCharacter, bground) == -1
 								|| mainCharacter.spriteActualPos[0] >= tileSize[0] * bground.width
@@ -599,15 +618,29 @@ public class JavaTemplate {
 							mainCharacter.spriteActualPos[0] += 3 * deltaTimeMS;
 
 						} else {
+							gunMan.update((deltaTimeMS / 1000), mainCharacter);
+
 							mainCharacter.spritePos[0] = (int) mainCharacter.spriteActualPos[0];
 							if (camera.spritePos[0] > 0 && mainCharacter.spriteActualPos[0]
 									- camera.spriteActualPos[0] <= window.getWidth() / 2) {
-								camera.spriteActualPos[0] -= 3 * deltaTimeMS;
+								camera.spriteActualPos[0] -= 2 * deltaTimeMS;
 								camera.spritePos[0] = (int) camera.spriteActualPos[0];
 							}
 						}
 
 					}
+				}
+				else{
+					if(gunMan.def == gunSlashLeft){
+					gunMan.idle(mainCharacter, gunManWalkingLeft , gunSlashLeft.frames[gunMan.index]);
+					}
+					else if(gunMan.def == gunSlashRight){
+						gunMan.idle(mainCharacter, gunManWalkingRight , gunSlashRight.frames[gunMan.index]);
+
+					}
+					mainCharacter.slashing = 0;
+				}
+				
 				// controlled jump based on gravity
 				if (kbState[KeyEvent.VK_UP] && mainCharacter.spritePos[1] > 0 && mainCharacter.canJump) {
 					// gunMan.setDef(gunManWalkingUp);
@@ -618,7 +651,7 @@ public class JavaTemplate {
 					mainCharacter.canJump = false;
 				}
 
-				if (kbState[KeyEvent.VK_LEFT] && mainCharacter.spritePos[0] > 0) {
+				if (kbState[KeyEvent.VK_LEFT] && mainCharacter.spritePos[0] > 0 && mainCharacter.slashing==0) {
 					gunMan.setDef(gunManWalkingLeft);
 					gunMan.update((deltaTimeMS / 1000), mainCharacter);
 					mainCharacter.spriteActualPos[0] -= (deltaTimeMS) / 2;
@@ -630,7 +663,7 @@ public class JavaTemplate {
 					mainCharacter.spritePos[0] = (int) mainCharacter.spriteActualPos[0];
 				}
 				if (kbState[KeyEvent.VK_RIGHT]
-						&& mainCharacter.spritePos[0] < tileSize[0] * bground.width - mainCharacter.spriteSize[0]) {
+						&& mainCharacter.spritePos[0] < tileSize[0] * bground.width - mainCharacter.spriteSize[0] && mainCharacter.slashing==0) {
 					gunMan.setDef(gunManWalkingRight);
 					gunMan.update((deltaTimeMS / 1000), mainCharacter);
 					mainCharacter.spriteActualPos[0] += (deltaTimeMS) / 2;
@@ -642,6 +675,14 @@ public class JavaTemplate {
 
 					mainCharacter.spritePos[0] = (int) mainCharacter.spriteActualPos[0];
 				}
+				if(!kbState[KeyEvent.VK_RIGHT] && !kbState[KeyEvent.VK_LEFT] && mainCharacter.slashing==0){
+					gunMan.idle(mainCharacter);
+				
+
+					
+
+					
+				}
 				// main player attacks
 				if (kbState[KeyEvent.VK_SPACE] && (mainCharacter.currentTime > mainCharacter.shootDelay)) {
 					mainCharacter.currentTime = 0;
@@ -651,18 +692,7 @@ public class JavaTemplate {
 					// mainCharacter.shootDelay);
 
 					// add to bullets
-					if (gunMan.getDef() == gunManWalkingUp) {
-						bullets.add(new BulletSpriteDef(
-								new int[] { mainCharacter.spritePos[0] + 40, mainCharacter.spritePos[1] + 40 },
-								new float[] { mainCharacter.spritePos[0] + 40, mainCharacter.spritePos[1] + 40 },
-								bullet.spriteTex, bullet.spriteSize, -1, 0, true, "player"));
-					} else if (gunMan.getDef() == gunManWalkingDown) {
-						bullets.add(new BulletSpriteDef(
-								new int[] { mainCharacter.spritePos[0] + 16, mainCharacter.spritePos[1] + 80 },
-								new float[] { mainCharacter.spritePos[0] + 16, mainCharacter.spritePos[1] + 80 },
-								bullet.spriteTex, bullet.spriteSize, 1, 0, true, "player"));
-
-					} else if (gunMan.getDef() == gunManWalkingLeft) {
+					if (gunMan.getDef() == gunManWalkingLeft) {
 						bullets.add(new BulletSpriteDef(
 								new int[] { mainCharacter.spritePos[0] + 20, mainCharacter.spritePos[1] + 68 },
 								new float[] { mainCharacter.spritePos[0] + 20, mainCharacter.spritePos[1] + 68 },
@@ -680,8 +710,12 @@ public class JavaTemplate {
 						&& (mainCharacter.slashCurrentTime > mainCharacter.slashCooldown)) {
 					mainCharacter.slashCurrentTime = 0;
 					if (gunMan.getDef() == gunManWalkingLeft) {
+						mainCharacter.spriteSize = gunSlashLeft.frames[0].spriteSize;
+						gunMan.setDef(gunSlashLeft);
 						mainCharacter.slashing = -1;
 					} else if (gunMan.getDef() == gunManWalkingRight) {
+						mainCharacter.spriteSize = gunSlashRight.frames[0].spriteSize;
+						gunMan.setDef(gunSlashRight);
 						mainCharacter.slashing = 1;
 
 					}
@@ -723,10 +757,7 @@ public class JavaTemplate {
 					camera.spritePos[0] = tileSize[0] * bground.width - camera.spriteSize[0];
 				}
 
-				if (!kbState[KeyEvent.VK_RIGHT] && !kbState[KeyEvent.VK_LEFT] && !kbState[KeyEvent.VK_DOWN]
-						&& !kbState[KeyEvent.VK_UP]) {
-					gunMan.idle();
-				}
+				
 			}
 			gl.glClearColor(0, 0, 0, 1);
 			gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
@@ -913,15 +944,37 @@ public class JavaTemplate {
 					slimes.get(i).animation.draw(slimes.get(i).spritePos[0] - camera.spritePos[0],
 							slimes.get(i).spritePos[1] - camera.spritePos[1], gl);
 
-				} else if (slimes.get(i).health <= 0) {
+				} else if(slimes.size()==1 && slimes.get(i).health<=0){
+					sword.spritePos[0]=slimes.get(i).spritePos[0];
+					sword.spritePos[1]=slimes.get(i).spritePos[1];
+					sword.jumpForce=deltaTimeMS/2;
+					// to skip initial impact from gravity
+					//sword.spriteActualPos[1]=slimes.get(i).spritePos[1]- 150;
+					//sword.spriteActualPos[0]=slimes.get(i).spritePos[0];
+
 					slimes.remove(slimes.get(i));
 					slimesSize--;
-					if (slimes.size() == 0) {
+					
 
-					}
+				}
+				else if (slimes.get(i).health <= 0) {
+					slimes.remove(slimes.get(i));
+					slimesSize--;
+				
 				}
 			}
+			
+			// Change first level after killing last slime and drop weapon
+			if (intersects(sword, camera) && slimes.size() == 0 && !mainCharacter.powerUps.contains("sword")) {
+				swordGlow.update((deltaTimeMS / 1000), sword);
+				sword.animation.draw(sword.spritePos[0] - camera.spritePos[0],
+						sword.spritePos[1] - camera.spritePos[1], gl);
+				// System.out.println("drawing main character");
 
+			}
+			if(intersects(sword, mainCharacter)){
+				mainCharacter.powerUps.add("sword");
+			}
 			if (slimes.size() == 0 && currentLevel == 0) {
 				currentLevel = 1;
 				changingLevel = true;
