@@ -27,10 +27,24 @@ public class JavaTemplate {
 	private static int grayTileTex;
 	private static int pillarTileTex;
 	private static int brickTileTex;
+	
+	private static int health1Tex;
+	private static int health2Tex;
+	private static int health3Tex;
+	private static int health4Tex;
+	private static int health5Tex;
+	private static int health6Tex;
+	private static int health7Tex;
+	private static int health8Tex;
+	private static int health9Tex;
 
 	// Texture for mainBackground
+	private static int arenaBackTex;
+	
 	// Size of the tile
 	private static int[] tileSize = new int[2];
+	private static int[] healthSize = new int[2];
+	private static int[] backgroundSize = new int[2];
 
 	// All bullets in world
 	private static ArrayList<BulletSpriteDef> bullets = new ArrayList<BulletSpriteDef>();
@@ -96,6 +110,21 @@ public class JavaTemplate {
 
 		pillarTileTex = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/pillar.tga"), tileSize);
 		BackgroundDef topGroundDef = new BackgroundDef(40, 40, tileSize[0], tileSize[1]);
+		
+		//Health textures here
+		health1Tex = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/health1.tga"), healthSize);
+		health2Tex = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/health2.tga"), healthSize);
+		health3Tex = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/health3.tga"), healthSize);
+		health4Tex = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/health4.tga"), healthSize);
+		health5Tex = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/health5.tga"), healthSize);
+		health6Tex = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/health6.tga"), healthSize);
+		health7Tex = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/health7.tga"), healthSize);
+		health8Tex = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/health8.tga"), healthSize);
+		health9Tex = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/health9.tga"), healthSize);
+		
+		arenaBackTex = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/arena_background.tga"), backgroundSize);
+		
+		
 		// set tiles equal to textures here
 
 		// set tiles for middle ground
@@ -161,7 +190,7 @@ public class JavaTemplate {
 		mainCharacter.spritePos[1] = 16 * tileSize[1];
 		mainCharacter.spriteActualPos[0] = 15 * tileSize[0];
 		mainCharacter.spritePos[0] = 15 * tileSize[0];
-		mainCharacter.health = 50;
+		mainCharacter.health = 64;
 		actors.add(mainCharacter);
 		mainCharacter.spriteTex = glTexImageTGAFile(gl,
 
@@ -251,9 +280,6 @@ public class JavaTemplate {
 		AnimationData slimeAnimationData = new AnimationData(slimeMoving, (float) 0.25);
 		slimeAnimationData.setDef(slimeMoving);
 		slime.animation= slimeAnimationData;
-		
-		
-		
 		
 		// The game loop
 		long lastFrameNS;
@@ -462,7 +488,7 @@ public class JavaTemplate {
 						}
 					}
 					// chance to shoot
-					else if (chanceForAction >= 1 && chanceForAction < 15) {
+					else if (chanceForAction >= 1 && chanceForAction < 40) {
 						int run;
 						if (mainCharacter.spriteActualPos[0] > slimes.get(i).spriteActualPos[0]) {
 							run = 1;
@@ -704,6 +730,8 @@ public class JavaTemplate {
 			}
 			gl.glClearColor(0, 0, 0, 1);
 			gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
+			
+			glDrawSprite(gl, arenaBackTex, 0, 0, backgroundSize[0], backgroundSize[1]);
 
 			// Draw Background
 			// System.out.println("bottom");
@@ -717,6 +745,9 @@ public class JavaTemplate {
 					}
 				}
 			}
+			
+			
+			
 			// Draw pillar
 			// System.out.println("bottom");
 			// for (int x = (int) Math.floor((camera.spritePos[0]) /
@@ -741,6 +772,7 @@ public class JavaTemplate {
 
 			// System.out.println("middle");
 			// System.out.println(deltaTimeMS);
+			
 			// Draw Bullets
 			int bulletsSize = bullets.size();
 			for (int i = 0; i < bulletsSize; i++) {
@@ -844,7 +876,35 @@ public class JavaTemplate {
 			mainCharacter.currentTime += deltaTimeMS;
 			mainCharacter.slashCurrentTime += deltaTimeMS;
 			
-	
+			// Draw health bar
+			System.out.println(mainCharacter.health);
+			if(mainCharacter.health >= 64){
+				glDrawSprite(gl, health1Tex, 0, 0, healthSize[0], healthSize[1]);
+			}
+			else if(mainCharacter.health >= 61){
+				glDrawSprite(gl, health2Tex, 0, 0, healthSize[0], healthSize[1]);
+			}
+			else if(mainCharacter.health >= 52){
+				glDrawSprite(gl, health3Tex, 0, 0, healthSize[0], healthSize[1]);
+			}
+			else if(mainCharacter.health >= 44){
+				glDrawSprite(gl, health4Tex, 0, 0, healthSize[0], healthSize[1]);
+			}
+			else if(mainCharacter.health >= 35){
+				glDrawSprite(gl, health5Tex, 0, 0, healthSize[0], healthSize[1]);
+			}
+			else if(mainCharacter.health >= 26){
+				glDrawSprite(gl, health6Tex, 0, 0, healthSize[0], healthSize[1]);
+			}
+			else if(mainCharacter.health >= 17){
+				glDrawSprite(gl, health7Tex, 0, 0, healthSize[0], healthSize[1]);
+			}
+			else if(mainCharacter.health >= 8){
+				glDrawSprite(gl, health8Tex, 0, 0, healthSize[0], healthSize[1]);
+			}
+			else if(mainCharacter.health >= 0){
+				glDrawSprite(gl, health9Tex, 0, 0, healthSize[0], healthSize[1]);
+			}
 
 //			// Draw slimes
 			int slimesSize = slimes.size();
