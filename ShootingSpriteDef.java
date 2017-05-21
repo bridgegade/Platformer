@@ -9,15 +9,19 @@ public class ShootingSpriteDef extends SpriteDef {
 	float slashCooldown;
 	float currentTime;
 	float slashCurrentTime;
+
 	int bulletDamage = 1;
 	int slashDamage = 4;
+
 	ArrayList<String> powerUps = new ArrayList<>();
 public ShootingSpriteDef(boolean hasGravity){
 		super(hasGravity);
 		canShoot = true;
 		slashing = 0;
+
 		shootDelay = 250;
 		slashDelay = 400;
+
 		slashCooldown = 1000;
 		slashCurrentTime =0;
 		currentTime = 0;

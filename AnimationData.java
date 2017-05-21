@@ -26,7 +26,7 @@ public class AnimationData {
 	 secsUntilNextFrame = secsUntilNextFrame- deltaTime;
 	 if(secsUntilNextFrame - deltaTime <0){
 		 secsUntilNextFrame = def.frames[index].frameTimeSecs;
-		 int prevIndex=0;
+		 int prevIndex=1;
 		 if(index == def.frames.length-1){
 			 prevIndex = index;
 			 index = 0;
@@ -53,6 +53,7 @@ public class AnimationData {
 
 	 //System.out.println(index);
  }
+
  
  
 // public void idle(SpriteDef sprite){
@@ -90,6 +91,7 @@ public class AnimationData {
 	 
 	 setDef(d);
 	 }
+
 
  }
 }
