@@ -55,7 +55,7 @@ public class JavaTemplate {
 
 		// Create the window and OpenGL context.
 		GLWindow window = GLWindow.create(new GLCapabilities(gl2Profile));
-		window.setSize(1600, 1400);
+		window.setSize(1600, 800);
 
 		window.setTitle("Java Template");
 		window.setVisible(true);
@@ -81,9 +81,9 @@ public class JavaTemplate {
 		// Setup OpenGL state.
 		window.getContext().makeCurrent();
 		GL2 gl = window.getGL().getGL2();
-		gl.glViewport(0, 0, 1600, 1400);
+		gl.glViewport(0, 0, 1600, 800);
 		gl.glMatrixMode(GL2.GL_PROJECTION);
-		gl.glOrtho(0, 1600, 1400, 0, 0, 100);
+		gl.glOrtho(0, 1600, 800, 0, 0, 100);
 		gl.glEnable(GL2.GL_TEXTURE_2D);
 		gl.glEnable(GL2.GL_BLEND);
 		gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
@@ -213,12 +213,33 @@ public class JavaTemplate {
 		
 
 		// set animationDefs for main character for each direction
+		
+		//Gunman throwing stars
+		FrameDef[] throwLeftFrames = new FrameDef[5];
+		for (int i = 0; i < throwLeftFrames.length; i++) {
+			int[] gunManSize = new int[2];
+			int image = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/mainCharacter/throwingLeft" + i + ".tga"),
+					gunManSize);
+			throwLeftFrames[i] = new FrameDef(image, (float) 0.05, gunManSize);
+		}
+		AnimationDef gunThrowLeft = new AnimationDef(throwLeftFrames);
+		
+		FrameDef[] throwRightFrames = new FrameDef[5];
+		for (int i = 0; i < throwRightFrames.length; i++) {
+			int[] gunManSize = new int[2];
+			int image = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/mainCharacter/throwingRight" + i + ".tga"),
+					gunManSize);
+			throwRightFrames[i] = new FrameDef(image, (float) 0.05, gunManSize);
+		}
+		AnimationDef gunThrowRight = new AnimationDef(throwRightFrames);
+		
+		//Gunman Slashing
 		FrameDef[] slashLeftFrames = new FrameDef[3];
 		for (int i = 0; i < slashLeftFrames.length; i++) {
 			int[] gunManSize = new int[2];
 			int image = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/mainCharacter/gunManSlashLeft" + i + ".tga"),
 					gunManSize);
-			slashLeftFrames[i] = new FrameDef(image, (float) 0.05, gunManSize);
+			slashLeftFrames[i] = new FrameDef(image, (float) 0.2, gunManSize);
 		}
 		AnimationDef gunSlashLeft = new AnimationDef(slashLeftFrames);
 		
@@ -227,11 +248,12 @@ public class JavaTemplate {
 			int[] gunManSize = new int[2];
 			int image = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/mainCharacter/gunManSlashRight" + i + ".tga"),
 					gunManSize);
-			slashRightFrames[i] = new FrameDef(image, (float) 0.05, gunManSize);
+			slashRightFrames[i] = new FrameDef(image, (float) 0.2, gunManSize);
 		}
 		AnimationDef gunSlashRight = new AnimationDef(slashRightFrames);
-
-		FrameDef[] gunManWalkingLeftFrames = new FrameDef[9];
+		
+		//Gunman Walking
+		FrameDef[] gunManWalkingLeftFrames = new FrameDef[8];
 		for (int i = 0; i < gunManWalkingLeftFrames.length; i++) {
 			int[] gunManSize = new int[2];
 			int image = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/mainCharacter/gunManWalkLeft" + i + ".tga"),
@@ -240,7 +262,7 @@ public class JavaTemplate {
 		}
 		AnimationDef gunManWalkingLeft = new AnimationDef(gunManWalkingLeftFrames);
 
-		FrameDef[] gunManWalkingRightFrames = new FrameDef[9];
+		FrameDef[] gunManWalkingRightFrames = new FrameDef[8];
 		for (int i = 0; i < gunManWalkingRightFrames.length; i++) {
 			int[] gunManSize = new int[2];
 			int image = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/mainCharacter/gunManWalkRight" + i + ".tga"),
@@ -251,7 +273,27 @@ public class JavaTemplate {
 		}
 		AnimationDef gunManWalkingRight = new AnimationDef(gunManWalkingRightFrames);
 		
+		FrameDef[] gunManIdleRightFrames = new FrameDef[1];
+		for (int i = 0; i < gunManIdleRightFrames.length; i++) {
+			int[] gunManSize = new int[2];
+			int image = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/mainCharacter/gunManIdleRight" + i + ".tga"),
+					gunManSize);
+			
+			gunManIdleRightFrames[i] = new FrameDef(image, (float) 0.05, gunManSize);
+			
+		}
+		AnimationDef gunManIdleRight = new AnimationDef(gunManIdleRightFrames);
 		
+		FrameDef[] gunManIdleLeftFrames = new FrameDef[1];
+		for (int i = 0; i < gunManIdleLeftFrames.length; i++) {
+			int[] gunManSize = new int[2];
+			int image = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/mainCharacter/gunManIdleLeft" + i + ".tga"),
+					gunManSize);
+			
+			gunManIdleLeftFrames[i] = new FrameDef(image, (float) 0.05, gunManSize);
+			
+		}
+		AnimationDef gunManIdleLeft = new AnimationDef(gunManIdleLeftFrames);
 
 		AnimationData gunMan = new AnimationData(gunManWalkingRight, (float) 0.25);
 		mainCharacter.animation=gunMan;
@@ -565,12 +607,12 @@ public class JavaTemplate {
 				if (mainCharacter.slashCurrentTime < mainCharacter.slashDelay){
 					if (mainCharacter.slashing == 1) {
 						mainCharacter.spriteActualPos[0] += 2 * deltaTimeMS;
-						if (collidesWithBackground(mainCharacter, bground) == 1
-								|| collidesWithBackground(mainCharacter, bground) == -1
+						if (collidesWithBackground(mainCharacter, bground) != 0
+								
 								|| mainCharacter.spriteActualPos[0] >= tileSize[0] * bground.width
 										- mainCharacter.spriteSize[0]
 								|| mainCharacter.spriteActualPos[0] <= 0) {
-							mainCharacter.spriteActualPos[0] -= 3 * deltaTimeMS;
+							mainCharacter.spriteActualPos[0] -= 2 * deltaTimeMS;
 
 						} else {
 							gunMan.update((deltaTimeMS / 1000), mainCharacter);
@@ -584,12 +626,12 @@ public class JavaTemplate {
 						}
 					} else if (mainCharacter.slashing == -1) {
 						mainCharacter.spriteActualPos[0] -= 2 * deltaTimeMS;
-						if (collidesWithBackground(mainCharacter, bground) == 1
-								|| collidesWithBackground(mainCharacter, bground) == -1
+						if (collidesWithBackground(mainCharacter, bground) != 0
+								
 								|| mainCharacter.spriteActualPos[0] >= tileSize[0] * bground.width
 										- mainCharacter.spriteSize[0]
 								|| mainCharacter.spriteActualPos[0] <= 0) {
-							mainCharacter.spriteActualPos[0] += 3 * deltaTimeMS;
+							mainCharacter.spriteActualPos[0] += 2 * deltaTimeMS;
 
 						} else {
 							gunMan.update((deltaTimeMS / 1000), mainCharacter);
@@ -606,10 +648,10 @@ public class JavaTemplate {
 				}
 				else{
 					if(gunMan.def == gunSlashLeft){
-					gunMan.idle(mainCharacter, gunManWalkingLeft , gunSlashLeft.frames[gunMan.index]);
+					gunMan.setDefAnimationFix(mainCharacter, gunManWalkingLeft );
 					}
 					else if(gunMan.def == gunSlashRight){
-						gunMan.idle(mainCharacter, gunManWalkingRight , gunSlashRight.frames[gunMan.index]);
+						gunMan.setDefAnimationFix(mainCharacter, gunManWalkingRight );
 
 					}
 					mainCharacter.slashing = 0;
@@ -626,7 +668,7 @@ public class JavaTemplate {
 				}
 
 				if (kbState[KeyEvent.VK_LEFT] && mainCharacter.spritePos[0] > 0 && mainCharacter.slashing==0) {
-					gunMan.setDef(gunManWalkingLeft);
+					gunMan.setDefAnimationFix(mainCharacter,gunManWalkingLeft);
 					gunMan.update((deltaTimeMS / 1000), mainCharacter);
 					mainCharacter.spriteActualPos[0] -= (deltaTimeMS) / 2;
 					if (collidesWithBackground(mainCharacter, bground) == -1
@@ -638,7 +680,7 @@ public class JavaTemplate {
 				}
 				if (kbState[KeyEvent.VK_RIGHT]
 						&& mainCharacter.spritePos[0] < tileSize[0] * bground.width - mainCharacter.spriteSize[0] && mainCharacter.slashing==0) {
-					gunMan.setDef(gunManWalkingRight);
+					gunMan.setDefAnimationFix(mainCharacter,gunManWalkingRight);
 					gunMan.update((deltaTimeMS / 1000), mainCharacter);
 					mainCharacter.spriteActualPos[0] += (deltaTimeMS) / 2;
 
@@ -649,50 +691,69 @@ public class JavaTemplate {
 
 					mainCharacter.spritePos[0] = (int) mainCharacter.spriteActualPos[0];
 				}
-				if(!kbState[KeyEvent.VK_RIGHT] && !kbState[KeyEvent.VK_LEFT] && mainCharacter.slashing==0){
-					gunMan.idle(mainCharacter);
+				
+				// main player attacks
+				if (kbState[KeyEvent.VK_SPACE] && !kbState[KeyEvent.VK_RIGHT] && !kbState[KeyEvent.VK_LEFT]) {
+					
+					// System.out.println("current time" +
+					// mainCharacter.currentTime);
+					// System.out.println("shoot delay" +
+					// mainCharacter.shootDelay);
+					if(gunMan.getDef() == gunManIdleLeft){
+					gunMan.setDefAnimationFix(mainCharacter, gunThrowLeft);
+					}
+					else if(gunMan.getDef() == gunManIdleRight){
+						gunMan.setDefAnimationFix(mainCharacter, gunThrowRight);
+
+					}
+					gunMan.update((deltaTimeMS / 1000), mainCharacter);
+					// add to bullets
+					if((mainCharacter.currentTime > mainCharacter.shootDelay)){
+						mainCharacter.currentTime = 0;
+					if (gunMan.getDef() == gunThrowLeft) {
+						bullets.add(new BulletSpriteDef(
+								new int[] { mainCharacter.spritePos[0] + 20, mainCharacter.spritePos[1] + 40 },
+								new float[] { mainCharacter.spritePos[0] + 20, mainCharacter.spritePos[1] + 40 },
+								bullet.spriteTex, bullet.spriteSize, 0, -1, true, "player"));
+
+					} else if ( gunMan.getDef() == gunThrowRight) {
+						bullets.add(new BulletSpriteDef(
+								new int[] { mainCharacter.spritePos[0] + 70, mainCharacter.spritePos[1] + 40 },
+								new float[] { mainCharacter.spritePos[0] + 70, mainCharacter.spritePos[1] + 40 },
+								bullet.spriteTex, bullet.spriteSize, 0, 1, true, "player"));
+
+					}
+					}
+
+				} else if (kbState[KeyEvent.VK_Z] && (mainCharacter.slashCurrentTime > mainCharacter.slashDelay)
+						&& (mainCharacter.slashCurrentTime > mainCharacter.slashCooldown) && mainCharacter.powerUps.contains("sword")) {
+				
+					
+					mainCharacter.slashCurrentTime = 0;
+					if (gunMan.getDef() == gunManWalkingLeft || gunMan.getDef() == gunManIdleLeft) {
+						gunMan.setDefAnimationFix(mainCharacter,gunSlashLeft);
+						while(collidesWithBackground(mainCharacter, bground)!=0){
+							mainCharacter.spriteActualPos[0]--;
+						}
+						mainCharacter.spritePos[0] = (int)mainCharacter.spriteActualPos[0];
+						mainCharacter.slashing = -1;
+					} else if (gunMan.getDef() == gunManWalkingRight || gunMan.getDef() == gunManIdleRight) {
+						gunMan.setDefAnimationFix(mainCharacter,gunSlashRight);
+						mainCharacter.slashing = 1;
+
+					}
+				}else if(!kbState[KeyEvent.VK_RIGHT] && !kbState[KeyEvent.VK_LEFT] && mainCharacter.slashing==0){
+					if(gunMan.def == gunManWalkingRight || gunMan.def == gunThrowRight){
+					gunMan.setDefAnimationFix(mainCharacter,gunManIdleRight);
+					}
+					else if(gunMan.def == gunManWalkingLeft|| gunMan.def == gunThrowLeft){
+						gunMan.setDefAnimationFix(mainCharacter,gunManIdleLeft);
+						}
 				
 
 					
 
 					
-				}
-				// main player attacks
-				if (kbState[KeyEvent.VK_SPACE] && (mainCharacter.currentTime > mainCharacter.shootDelay)) {
-					mainCharacter.currentTime = 0;
-					// System.out.println("current time" +
-					// mainCharacter.currentTime);
-					// System.out.println("shoot delay" +
-					// mainCharacter.shootDelay);
-
-					// add to bullets
-					if (gunMan.getDef() == gunManWalkingLeft) {
-						bullets.add(new BulletSpriteDef(
-								new int[] { mainCharacter.spritePos[0] + 20, mainCharacter.spritePos[1] + 68 },
-								new float[] { mainCharacter.spritePos[0] + 20, mainCharacter.spritePos[1] + 68 },
-								bullet.spriteTex, bullet.spriteSize, 0, -1, true, "player"));
-
-					} else if (gunMan.getDef() == gunManWalkingRight) {
-						bullets.add(new BulletSpriteDef(
-								new int[] { mainCharacter.spritePos[0] + 70, mainCharacter.spritePos[1] + 68 },
-								new float[] { mainCharacter.spritePos[0] + 70, mainCharacter.spritePos[1] + 68 },
-								bullet.spriteTex, bullet.spriteSize, 0, 1, true, "player"));
-
-					}
-
-				} else if (kbState[KeyEvent.VK_Z] && (mainCharacter.slashCurrentTime > mainCharacter.slashDelay)
-						&& (mainCharacter.slashCurrentTime > mainCharacter.slashCooldown)) {
-					mainCharacter.slashCurrentTime = 0;
-					if (gunMan.getDef() == gunManWalkingLeft) {
-						mainCharacter.spriteSize = gunSlashLeft.frames[0].spriteSize;
-						gunMan.setDef(gunSlashLeft);
-						mainCharacter.slashing = -1;
-					} else if (gunMan.getDef() == gunManWalkingRight) {
-						mainCharacter.spriteSize = gunSlashRight.frames[0].spriteSize;
-						gunMan.setDef(gunSlashRight);
-						mainCharacter.slashing = 1;
-
-					}
 				}
 
 				// Key presses for Camera
@@ -772,6 +833,21 @@ public class JavaTemplate {
 
 			// System.out.println("middle");
 			// System.out.println(deltaTimeMS);
+			
+			// Slash damage
+			
+				for(SpriteDef s: slimes){
+					if(mainCharacter.slashing!=0){
+					if(intersects(s, mainCharacter) && s.hitDelayCurrent>s.hitDelay){
+						s.health-=mainCharacter.slashDamage;
+						s.hitDelayCurrent=0;
+					}
+					}
+					s.hitDelayCurrent+=deltaTimeMS;
+				}
+			
+			
+			
 			// Draw Bullets
 			int bulletsSize = bullets.size();
 			for (int i = 0; i < bulletsSize; i++) {
@@ -822,7 +898,7 @@ public class JavaTemplate {
 						if (intersects(bullets.get(i), s)) {
 							bullets.remove(i);
 							bulletsSize--;
-							s.health--;
+							s.health-=mainCharacter.bulletDamage;
 						}
 					} else if (bullets.get(i).type.equals("slime") && s.health > 0) {
 						if (intersects(bullets.get(i), mainCharacter)) {

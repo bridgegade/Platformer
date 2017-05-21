@@ -16,6 +16,10 @@ public class SpriteDef {
 	
 	// Size of the sprite.
 	int[] spriteSize = new int[2];
+	
+	// Characteristics
+	float hitDelay=148;
+	float hitDelayCurrent = 0;
 	int health;
 	boolean canJump = true;
 	float jumpForce = 0;

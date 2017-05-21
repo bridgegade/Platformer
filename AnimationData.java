@@ -26,25 +26,25 @@ public class AnimationData {
 	 secsUntilNextFrame = secsUntilNextFrame- deltaTime;
 	 if(secsUntilNextFrame - deltaTime <0){
 		 secsUntilNextFrame = def.frames[index].frameTimeSecs;
-		 int prevIndex=1;
+		 int prevIndex=0;
 		 if(index == def.frames.length-1){
 			 prevIndex = index;
-			 index = 2;
+			 index = 0;
 			 }
 			 else{
 				 prevIndex = index;
 				 index++;
 			 }
 	
-		 sprite.spriteActualPos[0]+= (def.frames[prevIndex].spriteSize[0]-def.frames[index].spriteSize[0]);
+		 //sprite.spriteActualPos[0]+= (def.frames[prevIndex].spriteSize[0]-def.frames[index].spriteSize[0]);
 		 sprite.spriteActualPos[1]+= (def.frames[prevIndex].spriteSize[1]-def.frames[index].spriteSize[1]);
 
-		 sprite.spritePos[0]+= (def.frames[prevIndex].spriteSize[0]-def.frames[index].spriteSize[0]);
+		 //sprite.spritePos[0]+= (def.frames[prevIndex].spriteSize[0]-def.frames[index].spriteSize[0]);
 		 sprite.spritePos[1]+= (def.frames[prevIndex].spriteSize[1]-def.frames[index].spriteSize[1]);
 		 sprite.spriteSize = def.frames[index].spriteSize;
 
 	 }
-	
+
  }
  public void draw(int x, int y, GL2 gl){
 	 JavaTemplate.glDrawSprite(gl, def.frames[index].image, x, y, def.frames[index].spriteSize[0], def.frames[index].spriteSize[1]);
@@ -53,34 +53,43 @@ public class AnimationData {
 
 	 //System.out.println(index);
  }
- public void idle(SpriteDef sprite){
-		 int prevIndex=1;
-		 if(index == def.frames.length-1){
-			 prevIndex = index;
-			 index = 2;
-			 }
-			 else{
-				 prevIndex = index;
-				 index++;
-			 }
+ 
+ 
+// public void idle(SpriteDef sprite){
+//		 int prevIndex=1;
+//		 if(index == def.frames.length-1){
+//			 prevIndex = index;
+//			 index = 2;
+//			 }
+//			 else{
+//				 prevIndex = index;
+//				 index++;
+//			 }
+//	
+//	 index = 0;
+//	 sprite.spriteActualPos[0]+= (def.frames[prevIndex].spriteSize[0]-def.frames[index].spriteSize[0]);
+//	 sprite.spriteActualPos[1]+= (def.frames[prevIndex].spriteSize[1]-def.frames[index].spriteSize[1]);
+//
+//	 sprite.spritePos[0]+= (def.frames[prevIndex].spriteSize[0]-def.frames[index].spriteSize[0]);
+//	 sprite.spritePos[1]+= (def.frames[prevIndex].spriteSize[1]-def.frames[index].spriteSize[1]);
+//	 sprite.spriteSize = def.frames[index].spriteSize;
+// }
+ public void setDefAnimationFix(SpriteDef sprite, AnimationDef d){
+	 if(d!=def){
+
+	 int i =0;
 	
-	 index = 0;
-	 sprite.spriteActualPos[0]+= (def.frames[prevIndex].spriteSize[0]-def.frames[index].spriteSize[0]);
-	 sprite.spriteActualPos[1]+= (def.frames[prevIndex].spriteSize[1]-def.frames[index].spriteSize[1]);
+	 //sprite.spriteActualPos[0]+= (def.frames[index].spriteSize[0]-d.frames[0].spriteSize[0]);
+	 sprite.spriteActualPos[1]+= (def.frames[index].spriteSize[1]-d.frames[i].spriteSize[1]);
 
-	 sprite.spritePos[0]+= (def.frames[prevIndex].spriteSize[0]-def.frames[index].spriteSize[0]);
-	 sprite.spritePos[1]+= (def.frames[prevIndex].spriteSize[1]-def.frames[index].spriteSize[1]);
-	 sprite.spriteSize = def.frames[index].spriteSize;
- }
- public void idle(SpriteDef sprite, AnimationDef d, FrameDef previousFrame){
+	 //sprite.spritePos[0]+= (def.frames[index].spriteSize[0]-d.frames[0].spriteSize[0]);
+	 sprite.spritePos[1]+= (def.frames[index].spriteSize[1]-d.frames[i].spriteSize[1]);
+	 
+		 sprite.spriteSize = d.frames[i].spriteSize;
+
+	 
 	 setDef(d);
-		
-	 index = 1;
-	 sprite.spriteActualPos[0]+= (previousFrame.spriteSize[0]-def.frames[index].spriteSize[0]);
-	 sprite.spriteActualPos[1]+= (previousFrame.spriteSize[1]-def.frames[index].spriteSize[1]);
+	 }
 
-	 sprite.spritePos[0]+= (previousFrame.spriteSize[0]-def.frames[index].spriteSize[0]);
-	 sprite.spritePos[1]+= (previousFrame.spriteSize[1]-def.frames[index].spriteSize[1]);
-	 sprite.spriteSize = def.frames[index].spriteSize;
  }
 }
