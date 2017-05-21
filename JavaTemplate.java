@@ -9,6 +9,8 @@ import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
+import javax.sound.sampled.Clip;
+
 public class JavaTemplate {
 	// Set this to true to make the game loop exit.
 	private static boolean shouldExit;
@@ -131,6 +133,9 @@ public class JavaTemplate {
 		backgroundSize[1]= window.getHeight();
 
 		
+		//Sound set
+		Sound bgMusic = Sound.loadFromFile(JavaTemplate.class.getResource("/resources/ninja_game_music.wav").toString());
+		Clip bgClip = bgMusic.playLooping();
 		
 		// set tiles equal to textures here
 
@@ -737,6 +742,10 @@ public class JavaTemplate {
 					// mainCharacter.currentTime);
 					// System.out.println("shoot delay" +
 					// mainCharacter.shootDelay);
+					
+					Sound shurikenThrow = Sound.loadFromFile(JavaTemplate.class.getResource("src/resources/shuriken_throw.wav").toString());
+					shurikenThrow.play();
+					
 					if(gunMan.getDef() == gunManIdleLeft){
 					gunMan.setDefAnimationFix(mainCharacter, gunThrowLeft);
 					}
@@ -768,7 +777,8 @@ public class JavaTemplate {
 				} else if (kbState[KeyEvent.VK_Z] && (mainCharacter.slashCurrentTime > mainCharacter.slashDelay)
 						&& (mainCharacter.slashCurrentTime > mainCharacter.slashCooldown) && mainCharacter.powerUps.contains("sword")) {
 				
-					
+					Sound swordSlash = Sound.loadFromFile(JavaTemplate.class.getResource("src/resources/sword_slash.wav").toString());
+					swordSlash.play();
 					mainCharacter.slashCurrentTime = 0;
 					if (gunMan.getDef() == gunManWalkingLeft || gunMan.getDef() == gunManIdleLeft) {
 						gunMan.setDefAnimationFix(mainCharacter,gunSlashLeft);
