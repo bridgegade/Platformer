@@ -127,6 +127,9 @@ public class JavaTemplate {
 		health9Tex = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/health9.tga"), healthSize);
 		
 		arenaBackTex = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/arena_background.tga"), backgroundSize);
+		backgroundSize[0]= window.getWidth();
+		backgroundSize[1]= window.getHeight();
+
 		
 		
 		// set tiles equal to textures here
