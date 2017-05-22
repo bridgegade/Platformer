@@ -131,11 +131,6 @@ public class JavaTemplate {
 		arenaBackTex = glTexImageTGAFile(gl, JavaTemplate.class.getResource("/resources/arena_background.tga"), backgroundSize);
 		backgroundSize[0]= window.getWidth();
 		backgroundSize[1]= window.getHeight();
-
-		
-		//Sound set
-		Sound bgMusic = Sound.loadFromFile(JavaTemplate.class.getResource("/resources/ninja_game_music.wav").toString());
-		Clip bgClip = bgMusic.playLooping();
 		
 		// set tiles equal to textures here
 
@@ -356,6 +351,10 @@ public class JavaTemplate {
 		slimeAnimationData.setDef(slimeMoving);
 		slime.animation= slimeAnimationData;
 		
+		//Sound set
+		Sound bgMusic = Sound.loadFromFile("src/resources/ninja_game_music.wav");
+		Clip bgClip = bgMusic.playLooping();
+		
 		// The game loop
 		long lastFrameNS;
 		long curFrameNS = System.nanoTime();
@@ -378,6 +377,7 @@ public class JavaTemplate {
 
 			if (!window.isVisible()) {
 				shouldExit = true;
+				bgClip.stop();
 				break;
 			}
 
@@ -674,7 +674,6 @@ public class JavaTemplate {
 										- mainCharacter.spriteSize[0]
 								|| mainCharacter.spriteActualPos[0] <= 0) {
 							mainCharacter.spriteActualPos[0] += 2 * deltaTimeMS;
-
 						} else {
 							gunMan.update((deltaTimeMS / 1000), mainCharacter);
 
@@ -743,7 +742,7 @@ public class JavaTemplate {
 					// System.out.println("shoot delay" +
 					// mainCharacter.shootDelay);
 					
-					Sound shurikenThrow = Sound.loadFromFile(JavaTemplate.class.getResource("src/resources/shuriken_throw.wav").toString());
+					Sound shurikenThrow = Sound.loadFromFile("src/resources/shuriken_throw.wav");
 					shurikenThrow.play();
 					
 					if(gunMan.getDef() == gunManIdleLeft){
@@ -777,7 +776,7 @@ public class JavaTemplate {
 				} else if (kbState[KeyEvent.VK_Z] && (mainCharacter.slashCurrentTime > mainCharacter.slashDelay)
 						&& (mainCharacter.slashCurrentTime > mainCharacter.slashCooldown) && mainCharacter.powerUps.contains("sword")) {
 				
-					Sound swordSlash = Sound.loadFromFile(JavaTemplate.class.getResource("src/resources/sword_slash.wav").toString());
+					Sound swordSlash = Sound.loadFromFile("src/resources/sword_slash.wav");
 					swordSlash.play();
 					mainCharacter.slashCurrentTime = 0;
 					if (gunMan.getDef() == gunManWalkingLeft || gunMan.getDef() == gunManIdleLeft) {
@@ -800,10 +799,6 @@ public class JavaTemplate {
 					else if(gunMan.def == gunManWalkingLeft|| gunMan.def == gunThrowLeft){
 						gunMan.setDefAnimationFix(mainCharacter,gunManIdleLeft);
 						}
-				
-
-					
-
 					
 				}
 
