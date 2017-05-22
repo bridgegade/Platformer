@@ -1,12 +1,14 @@
 import com.jogamp.opengl.GL2;
 
 public class AnimationData {
+	SpriteDef sprite;
  AnimationDef def;
  int curFrame;
  float secsUntilNextFrame;
  int index;
  
- public AnimationData(AnimationDef d, float sUNF){
+ public AnimationData(SpriteDef s,AnimationDef d, float sUNF){
+	 sprite = s;
 	 def = d;
 	 curFrame = def.frames[index].image;
 	 secsUntilNextFrame = sUNF;
@@ -21,7 +23,7 @@ public class AnimationData {
  public AnimationDef getDef(){
 	 return def;
  }
- public void update(float deltaTime, SpriteDef sprite){
+ public void update(float deltaTime){
 	 //System.out.printf("%.6f",secsUntilNextFrame - deltaTime);
 	 secsUntilNextFrame = secsUntilNextFrame- deltaTime;
 	 if(secsUntilNextFrame - deltaTime <0){
@@ -40,7 +42,7 @@ public class AnimationData {
 		 sprite.spriteActualPos[1]+= (def.frames[prevIndex].spriteSize[1]-def.frames[index].spriteSize[1]);
 
 		 //sprite.spritePos[0]+= (def.frames[prevIndex].spriteSize[0]-def.frames[index].spriteSize[0]);
-		 sprite.spritePos[1]+= (def.frames[prevIndex].spriteSize[1]-def.frames[index].spriteSize[1]);
+		 sprite.spritePos[1]=(int) sprite.spriteActualPos[1];
 		 sprite.spriteSize = def.frames[index].spriteSize;
 
 	 }
@@ -75,20 +77,18 @@ public class AnimationData {
 //	 sprite.spritePos[1]+= (def.frames[prevIndex].spriteSize[1]-def.frames[index].spriteSize[1]);
 //	 sprite.spriteSize = def.frames[index].spriteSize;
 // }
- public void setDefAnimationFix(SpriteDef sprite, AnimationDef d){
+ public void setDefAnimationFix( AnimationDef d){
 	 if(d!=def){
 
 	 int i =0;
-	
 	 //sprite.spriteActualPos[0]+= (def.frames[index].spriteSize[0]-d.frames[0].spriteSize[0]);
 	 sprite.spriteActualPos[1]+= (def.frames[index].spriteSize[1]-d.frames[i].spriteSize[1]);
 
 	 //sprite.spritePos[0]+= (def.frames[index].spriteSize[0]-d.frames[0].spriteSize[0]);
-	 sprite.spritePos[1]+= (def.frames[index].spriteSize[1]-d.frames[i].spriteSize[1]);
+	 sprite.spritePos[1]= (int)sprite.spriteActualPos[1];
 	 
-		 sprite.spriteSize = d.frames[i].spriteSize;
-
-	 
+	 sprite.spriteSize = d.frames[i].spriteSize;
+	 index = 0;
 	 setDef(d);
 	 }
 

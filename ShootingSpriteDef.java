@@ -11,7 +11,7 @@ public class ShootingSpriteDef extends SpriteDef {
 	float slashCurrentTime;
 
 	int bulletDamage = 1;
-	int slashDamage = 4;
+	float slashDamage = (float)2.5;
 
 	ArrayList<String> powerUps = new ArrayList<>();
 public ShootingSpriteDef(boolean hasGravity){

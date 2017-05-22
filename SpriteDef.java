@@ -6,11 +6,11 @@ public class SpriteDef {
 	
 	// Position for the sprite
 	int[] spritePos = new int[2];
-	boolean touchedGround;
+	boolean touchedGround = false;;
 	boolean hasGravity;
 	float fallSpeed;
 	float[] spriteActualPos = new float[2];
-	
+	String facing = "right";
 	// Texture for the sprite.
 	int spriteTex;
 	
@@ -20,7 +20,7 @@ public class SpriteDef {
 	// Characteristics
 	float hitDelay=148;
 	float hitDelayCurrent = 0;
-	int health;
+	double health;
 	boolean canJump = true;
 	float jumpForce = 0;
 	public SpriteDef(boolean hasGrav){
