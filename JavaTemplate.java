@@ -317,7 +317,11 @@ public class JavaTemplate {
 		AnimationDef soldierShootLeft = new AnimationDef(1, "/resources/enemySoldier/SoldierShootLeft", (float) 0.05,
 				gl);
 		ShootingSpriteDef soldier = new ShootingSpriteDef(true);
+
 		soldier.health = 1;
+
+		soldier.health = 40;
+
 		soldier.spriteTex = glTexImageTGAFile(gl,
 				JavaTemplate.class.getResource("/resources/enemySoldier/SoldierWalkLeft0.tga"), robot.spriteSize);
 		AnimationData soldierAnimation = new AnimationData(soldier, soldierWalkLeft, (float) 0.25);
@@ -325,8 +329,8 @@ public class JavaTemplate {
 		actors.add(soldier);
 
 		// Sound set
-		Sound bgMusic = Sound.loadFromFile("src/resources/sounds/ninja_game_music.wav");
-		Clip bgClip = bgMusic.playLooping();
+//		Sound bgMusic = Sound.loadFromFile("src/resources/sounds/ninja_game_music.wav");
+//		Clip bgClip = bgMusic.playLooping();
 
 		// The game loop
 		long lastFrameNS;
@@ -350,7 +354,7 @@ public class JavaTemplate {
 
 			if (!window.isVisible()) {
 				shouldExit = true;
-				bgClip.stop();
+//				bgClip.stop();
 				break;
 			}
 
@@ -545,7 +549,7 @@ public class JavaTemplate {
 						}
 					}
 					// chance to shoot
-					else if (chanceForAction >= 1 && chanceForAction < 70) {
+					else if (chanceForAction >= 1 && chanceForAction < 50) {
 						int run;
 						if (mainCharacter.spriteActualPos[0] > slimes.get(i).spriteActualPos[0]) {
 							run = 1;
@@ -586,7 +590,10 @@ public class JavaTemplate {
 				}
 
 				if (slimes.get(i).fallSpeed>0) {
+
 					System.out.println("x speed"+dx);
+
+
 					// slime.spriteActualPos[1] -= dy;
 
 					slimes.get(i).spriteActualPos[0] += dx;
@@ -682,14 +689,15 @@ public class JavaTemplate {
 			// SOLDIER MOVEMENT
 
 			if (soldier.health > 0 &&( currentLevel == 3 || currentLevel == 4) ){
+
 				System.out.println("SOLDIER COORDINATES" + soldier.spritePos[0] + " " + soldier.spritePos[1]);
+
 				int soldierAnimationSpeed = 5000;
 				double soldierMoveSpeed = 4;
 				if (soldier.health < 34) {
 					soldierMoveSpeed = 2.5;
 					soldierAnimationSpeed = 3000;
 				}
-				System.out.println("running");
 
 				if (Math.abs(soldier.spritePos[0] - mainCharacter.spritePos[0]) > 500) {
 					// CREATE BULLET
@@ -896,8 +904,8 @@ public class JavaTemplate {
 					// System.out.println("shoot delay" +
 					// mainCharacter.shootDelay);
 
-					Sound shurikenThrow = Sound.loadFromFile("src/resources/sounds/shuriken_throw.wav");
-					shurikenThrow.play();
+//					Sound shurikenThrow = Sound.loadFromFile("src/resources/sounds/shuriken_throw.wav");
+//					shurikenThrow.play();
 					float speed = 0;
 					float animationSpeed = (deltaTimeMS / 1000);
 					int randomRange = (int) (Math.random() * 10) + 35;
@@ -944,8 +952,8 @@ public class JavaTemplate {
 						&& (mainCharacter.slashCurrentTime > mainCharacter.slashCooldown)
 						&& mainCharacter.powerUps.contains("sword")) {
 
-					Sound swordSlash = Sound.loadFromFile("src/resources/sounds/sword_slash.wav");
-					swordSlash.play();
+//					Sound swordSlash = Sound.loadFromFile("src/resources/sounds/sword_slash.wav");
+//					swordSlash.play();
 					mainCharacter.slashCurrentTime = 0;
 					if (mainCharacter.facing.equals("left")) {
 						if (kbState[KeyEvent.VK_SHIFT] && mainCharacter.powerUps.contains("enhance")) {
@@ -1209,9 +1217,9 @@ public class JavaTemplate {
 						bullets.get(i).spritePos[0] = (int) bullets.get(i).spriteActualPos[0];
 						bullets.get(i).spritePos[1] = (int) bullets.get(i).spriteActualPos[1];
 						bullets.get(i).currentTime += deltaTimeMS;
-
+						// Remove physics bullets after 5 seconds
 						if (bullets.get(i).spritePos[0] < 0 || bullets.get(i).spritePos[0] > bground.width * tileSize[0]
-								|| bullets.get(i).currentTime > 15000) {
+								|| bullets.get(i).currentTime > 5000) {
 							actors.remove(bullets.get(i));
 							bullets.remove(i);
 							bulletsSize--;
@@ -1241,7 +1249,7 @@ public class JavaTemplate {
 			// Draw the main character sprite
 
 			if (intersects(mainCharacter, camera) && mainCharacter.health > 0) {
-				
+
 
 				mainCharacter.animation.draw(mainCharacter.spritePos[0] - camera.spritePos[0],
 						mainCharacter.spritePos[1] - camera.spritePos[1], gl);
@@ -1317,7 +1325,7 @@ public class JavaTemplate {
 				// System.out.println("drawing main character");
 
 			}
-			if (intersects(enhanceGlobe, camera) && soldier.health <= 0
+			if (intersects(enhanceGlobe, camera) && currentLevel ==4
 					&& !mainCharacter.powerUps.contains("enhance")) {
 				enhanceGlobeAnimation.update((deltaTimeMS / 1000));
 				enhanceGlobe.animation.draw(enhanceGlobe.spritePos[0] - camera.spritePos[0],
@@ -1332,7 +1340,7 @@ public class JavaTemplate {
 			}
 			if (mainCharacter.powerUps.contains("regenGlobe") && mainCharacter.health < 64
 					&& mainCharacter.health > 0) {
-				mainCharacter.health += deltaTimeMS / 500;
+				mainCharacter.health += deltaTimeMS / 370;
 			}
 			if (intersects(sword, mainCharacter)) {
 				mainCharacter.powerUps.add("sword");
@@ -1410,7 +1418,7 @@ public class JavaTemplate {
 					soldier.spriteActualPos[1] = 1498;
 					soldier.spritePos[0] = (int) soldier.spriteActualPos[0];
 					soldier.spritePos[1] = (int) soldier.spriteActualPos[1];
-					
+
 					for (int x = 0; x < bground.width; x++) {
 
 						for (int y = 0; y < bground.height - 10; y++) {
@@ -1423,47 +1431,47 @@ public class JavaTemplate {
 								bground.setTile(x, y, brickTileTex, true);
 							} else if (y == bground.height / 3 + 6 && x > 18 && x < 23) {
 								bground.setTile(x, y, brickTileTex, true);
-							} 
-							
+							}
+
 	                        if(x > 7 * bground.width / 8){
 	                            bground.setTile(x, y, 0, false);
-	                           
+
 	                        }
-	                       
-	                        if(y == (bground.height / 2 - 8) && x < 68 && x>9){
+
+	                        if(y == (bground.height / 2 - 12) && x < 68 && x>9){
 	                            bground.setTile(x, y, brickTileTex, true);
 	                        }
-	                       
+
 	                        if(x > 6 * bground.width / 8 && y == (bground.height / 2 - 6) && x > 70 && x < 78){
 	                            bground.setTile(x, y, brickTileTex, true);
 	                        }
-	                       
+
 	                        if(x > 7 * bground.width / 8 && y == bground.height / 2 && x > 75 && x < 80){
 	                            bground.setTile(x, y, brickTileTex, true);
 	                        }
-	
-	                       
+
+
 	                        if(x > 7 * bground.width / 8 && y == (bground.height / 2 + 7) && x > 70 && x < 74){
 	                            bground.setTile(x, y, brickTileTex, true);
 	                        }
-	                       
+
 	                        if(x > 7 * bground.width / 8 && y == (bground.height / 2 + 9) && x > 75 && x < 80){
 	                            bground.setTile(x, y, brickTileTex, true);
 	                        }
-	                       
+
 	                        if(x > 7 * bground.width / 8 && y == (bground.height / 2 + 10) && x > 71 && x < 73){
 	                            bground.setTile(x, y, brickTileTex, true);
 	                        }
-							
-							
+
+
 
 						}
 
 					}
 
 					// DRAW LEVEL 3
-					  
-			
+
+
 					currentLevel = 3;
 				}
 			}
@@ -1483,7 +1491,7 @@ public class JavaTemplate {
 					enhanceGlobe.jumpForce = 1;
 					enhanceGlobe.spriteActualPos[1] -= enhanceGlobe.jumpForce;
 					System.out.print("ENHANCE X :Y " + enhanceGlobe.spritePos[0]+ " "+enhanceGlobe.spritePos[1]);
-					
+
 					currentLevel = 4;
 					changingLevel = true;
 				}
@@ -1495,13 +1503,13 @@ public class JavaTemplate {
 				soldier.spriteActualPos[0] = 1228;
 				soldier.spritePos[0] = 1228;
 				soldier.health = 54;
-				
+
 				robot.spriteActualPos[1] = 827;
 				robot.spritePos[1] = 827;
 				robot.spriteActualPos[0] = 1228;
 				robot.spritePos[0] = 1228;
 				robot.health =64;
-				
+
 				SpriteDef slimeClone = new SpriteDef(true);
 				slimes.add(slimeClone);
 				slimeClone.spriteActualPos[1] = 867;
@@ -1527,7 +1535,7 @@ public class JavaTemplate {
 	/**
 	 * Checks for collision with background tile, returns 1 if collision is from
 	 * bottom, return -1 if collision is from top, 0 if no collision
-	 * 
+	 *
 	 * @param sprite
 	 * @param groundDef
 	 * @return
