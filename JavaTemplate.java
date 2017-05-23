@@ -317,7 +317,7 @@ public class JavaTemplate {
 		AnimationDef soldierShootLeft = new AnimationDef(1, "/resources/enemySoldier/SoldierShootLeft", (float) 0.05,
 				gl);
 		ShootingSpriteDef soldier = new ShootingSpriteDef(true);
-		soldier.health = 64;
+		soldier.health = 1;
 		soldier.spriteTex = glTexImageTGAFile(gl,
 				JavaTemplate.class.getResource("/resources/enemySoldier/SoldierWalkLeft0.tga"), robot.spriteSize);
 		AnimationData soldierAnimation = new AnimationData(soldier, soldierWalkLeft, (float) 0.25);
@@ -571,6 +571,7 @@ public class JavaTemplate {
 						slimeClone.spritePos[0] = slimes.get(i).spritePos[0];
 						slimeClone.spriteTex = glTexImageTGAFile(gl,
 								JavaTemplate.class.getResource("/resources/slime/f0.tga"), slimeClone.spriteSize);
+						slimeClone.touchedGround=true;
 
 						actors.add(slimeClone);
 
@@ -584,8 +585,8 @@ public class JavaTemplate {
 					}
 				}
 
-				if (slimeAnimationData.index == 4 && slimes.get(i).fallSpeed>0) {
-
+				if (slimes.get(i).fallSpeed>0) {
+					System.out.println("x speed"+dx);
 					// slime.spriteActualPos[1] -= dy;
 
 					slimes.get(i).spriteActualPos[0] += dx;
@@ -607,12 +608,12 @@ public class JavaTemplate {
 			}
 
 			// ROBOT MOVEMENT
-			if (robot.health > 0 && currentLevel == 2) {
-				int robotAnimationSpeed = 5000;
+			if (robot.health > 0 && (currentLevel == 2 || currentLevel ==4)) {
+				int robotAnimationSpeed = 3000;
 				double robotMoveSpeed = 4;
 				if (robot.health < 34) {
 					robotMoveSpeed = 2.5;
-					robotAnimationSpeed = 3000;
+					robotAnimationSpeed = 1500;
 				}
 				if (intersects(robot, camera) || robot.health < 34) {
 					if (Math.abs(robot.spritePos[0] - mainCharacter.spritePos[0]) < 30 && robot.health > 9) {
@@ -680,7 +681,7 @@ public class JavaTemplate {
 			}
 			// SOLDIER MOVEMENT
 
-			if (soldier.health > 0 && currentLevel == 3) {
+			if (soldier.health > 0 &&( currentLevel == 3 || currentLevel == 4) ){
 				System.out.println("SOLDIER COORDINATES" + soldier.spritePos[0] + " " + soldier.spritePos[1]);
 				int soldierAnimationSpeed = 5000;
 				double soldierMoveSpeed = 4;
@@ -1105,7 +1106,6 @@ public class JavaTemplate {
 			// Draw Bullets
 			int bulletsSize = bullets.size();
 			for (int i = 0; i < bulletsSize; i++) {
-				System.out.println("Bullet size " + bulletsSize);
 				if (i >= bulletsSize) {
 					// System.out.println(i);
 					// System.out.println("ActualSize" + bullets.size());
@@ -1245,6 +1245,7 @@ public class JavaTemplate {
 
 				mainCharacter.animation.draw(mainCharacter.spritePos[0] - camera.spritePos[0],
 						mainCharacter.spritePos[1] - camera.spritePos[1], gl);
+				System.out.println("XY"+mainCharacter.spritePos[0] +" " +mainCharacter.spritePos[1]);
 
 			}
 			// Update currentTime for main character sprite
@@ -1391,7 +1392,7 @@ public class JavaTemplate {
 			}
 
 			// DRAW ROBOT
-			if (currentLevel == 2) {
+			if (currentLevel == 2 || currentLevel == 4) {
 				if (intersects(robot, camera) && robot.health > 0) {
 
 					robot.animation.draw(robot.spritePos[0] - camera.spritePos[0],
@@ -1450,7 +1451,7 @@ public class JavaTemplate {
 	                            bground.setTile(x, y, brickTileTex, true);
 	                        }
 	                       
-	                        if(x > 7 * bground.width / 8 && y == (bground.height / 2 + 10) && x > 70 && x < 74){
+	                        if(x > 7 * bground.width / 8 && y == (bground.height / 2 + 10) && x > 71 && x < 73){
 	                            bground.setTile(x, y, brickTileTex, true);
 	                        }
 							
@@ -1468,7 +1469,7 @@ public class JavaTemplate {
 			}
 
 			// DRAW SOLIDER
-			if (currentLevel == 3) {
+			if (currentLevel == 3 || currentLevel == 4) {
 				if (intersects(soldier, camera) && soldier.health > 0) {
 					soldier.spritePos[0] = (int) soldier.spriteActualPos[0];
 					soldier.spritePos[1] = (int) soldier.spriteActualPos[1];
@@ -1482,33 +1483,43 @@ public class JavaTemplate {
 					enhanceGlobe.jumpForce = 1;
 					enhanceGlobe.spriteActualPos[1] -= enhanceGlobe.jumpForce;
 					System.out.print("ENHANCE X :Y " + enhanceGlobe.spritePos[0]+ " "+enhanceGlobe.spritePos[1]);
+					
 					currentLevel = 4;
-
+					changingLevel = true;
 				}
 			}
+			if(currentLevel == 4 && changingLevel){
+				changingLevel = false;
+				soldier.spriteActualPos[1] = 827;
+				soldier.spritePos[1] = 827;
+				soldier.spriteActualPos[0] = 1228;
+				soldier.spritePos[0] = 1228;
+				soldier.health = 54;
+				
+				robot.spriteActualPos[1] = 827;
+				robot.spritePos[1] = 827;
+				robot.spriteActualPos[0] = 1228;
+				robot.spritePos[0] = 1228;
+				robot.health =64;
+				
+				SpriteDef slimeClone = new SpriteDef(true);
+				slimes.add(slimeClone);
+				slimeClone.spriteActualPos[1] = 867;
+				slimeClone.spritePos[1] =867;
+				slimeClone.spriteActualPos[0] = 1228;
+				slimeClone.spritePos[0] = 1228;
+				slimeClone.spriteTex = glTexImageTGAFile(gl,
+						JavaTemplate.class.getResource("/resources/slime/f0.tga"), slimeClone.spriteSize);
+				slimeClone.touchedGround=true;
+				actors.add(slimeClone);
 
-			// Draw top layer
-
-			// for (int x = (int) Math.floor((camera.spritePos[0]) /
-			// tileSize[0]); x <= (int) Math
-			// .floor((camera.spritePos[0] + camera.spriteSize[0]) /
-			// tileSize[0]); x++) {
-			// for (int y = (int) Math.floor((camera.spritePos[1]) /
-			// tileSize[1]); y <= (int) Math
-			// .floor((camera.spritePos[1] + camera.spriteSize[1]) /
-			// tileSize[1]); y++) {
-			// if ((x < bground.width && y < bground.height)
-			// && (y * topGroundDef.tileHeight - camera.spritePos[1] >
-			// mainCharacter.spritePos[1]
-			// + 1 * mainCharacter.spriteSize[1] / 3 - camera.spritePos[1])) {
-			// glDrawSprite(gl, topGroundDef.getTile(x, y).tex,
-			// x * topGroundDef.tileWidth - camera.spritePos[0],
-			// y * topGroundDef.tileHeight - camera.spritePos[1], tileSize[0],
-			// tileSize[1]);
-			//
-			// }
-			// }
-			// }
+				// slime animation
+				AnimationDef slimeMovingClone = new AnimationDef(9, "/resources/slime/f", (float) 0.09, gl);
+				AnimationData slimeAnimationDataClone = new AnimationData(slimeClone, slimeMovingClone,
+						(float) 0.25);
+				slimeAnimationDataClone.setDef(slimeMovingClone);
+				slimeClone.animation = slimeAnimationDataClone;
+			}
 
 		}
 	}
