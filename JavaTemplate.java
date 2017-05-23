@@ -154,7 +154,7 @@ public class JavaTemplate {
 					bground.setTile(x, y, brickTileTex, true);
 				} else if (y == bground.height / 3 + 3 && x > 3 && x < 8) {
 					bground.setTile(x, y, brickTileTex, true);
-				} else if (y == bground.height / 3 + 4 && x > 10 && x < 14) {
+				} else if (y == bground.height / 3 && x > 10 && x < 14) {
 					bground.setTile(x, y, brickTileTex, true);
 				} else if (y == bground.height / 3 + 6 && x > 18 && x < 23) {
 					bground.setTile(x, y, brickTileTex, true);
@@ -226,6 +226,15 @@ public class JavaTemplate {
 		AnimationData regenGlobeAnimation = new AnimationData(regenGlobe, regenGlobeAnDef, (float) 0.25);
 		regenGlobe.animation = regenGlobeAnimation;
 
+		// ENHANCE ORB
+		SpriteDef enhanceGlobe = new SpriteDef(true);
+		enhanceGlobe.spriteTex = glTexImageTGAFile(gl,
+				JavaTemplate.class.getResource("/resources/pickups/enhance0.tga"), enhanceGlobe.spriteSize);
+		actors.add(enhanceGlobe);
+		AnimationDef enhanceGlobeAnDef = new AnimationDef(1, "/resources/pickups/enhance", (float) 0.05, gl);
+		AnimationData enhanceGlobeAnimation = new AnimationData(regenGlobe, enhanceGlobeAnDef, (float) 0.25);
+		enhanceGlobe.animation = enhanceGlobeAnimation;
+
 		// set animationDefs for main character
 		ShootingSpriteDef mainCharacter = new ShootingSpriteDef(true);
 		mainCharacter.spriteActualPos[1] = 16 * tileSize[1];
@@ -234,11 +243,10 @@ public class JavaTemplate {
 		mainCharacter.spritePos[0] = 15 * tileSize[0];
 		mainCharacter.health = 64;
 		actors.add(mainCharacter);
-		//TESING
-		mainCharacter.powerUps.add("sword");
-		mainCharacter.powerUps.add("regenGlobe");
-		mainCharacter.powerUps.add("enhance");
-
+		// TESING
+		// mainCharacter.powerUps.add("sword");
+		// mainCharacter.powerUps.add("regenGlobe");
+		// mainCharacter.powerUps.add("enhance");
 
 		mainCharacter.spriteTex = glTexImageTGAFile(gl,
 
@@ -246,15 +254,18 @@ public class JavaTemplate {
 				mainCharacter.spriteSize);
 		AnimationDef gunDashLeft = new AnimationDef(1, "/resources/mainCharacter/dashLeft", (float) 0.05, gl);
 		AnimationDef gunDashRight = new AnimationDef(1, "/resources/mainCharacter/dashRight", (float) 0.05, gl);
-		AnimationDef gunManJumpRight = new AnimationDef(1, "/resources/mainCharacter/gunManJumpRight",(float) 0.05, gl );
-		AnimationDef gunManJumpLeft = new AnimationDef(1, "/resources/mainCharacter/gunManJumpLeft",(float) 0.05, gl );
+		AnimationDef gunManJumpRight = new AnimationDef(1, "/resources/mainCharacter/gunManJumpRight", (float) 0.05,
+				gl);
+		AnimationDef gunManJumpLeft = new AnimationDef(1, "/resources/mainCharacter/gunManJumpLeft", (float) 0.05, gl);
 
 		AnimationDef gunThrowLeft = new AnimationDef(5, "/resources/mainCharacter/throwingLeft", (float) 0.05, gl);
 		AnimationDef gunThrowRight = new AnimationDef(5, "/resources/mainCharacter/throwingRight", (float) 0.05, gl);
 		AnimationDef gunSlashLeft = new AnimationDef(3, "/resources/mainCharacter/gunManSlashLeft", (float) 0.2, gl);
 		AnimationDef gunSlashRight = new AnimationDef(3, "/resources/mainCharacter/gunManSlashRight", (float) 0.2, gl);
-		AnimationDef gunSuperSlashLeft = new AnimationDef(3, "/resources/mainCharacter/gunManSuperSlashLeft", (float) 0.2, gl);
-		AnimationDef gunSuperSlashRight = new AnimationDef(3, "/resources/mainCharacter/gunManSuperSlashRight", (float) 0.2, gl);
+		AnimationDef gunSuperSlashLeft = new AnimationDef(3, "/resources/mainCharacter/gunManSuperSlashLeft",
+				(float) 0.2, gl);
+		AnimationDef gunSuperSlashRight = new AnimationDef(3, "/resources/mainCharacter/gunManSuperSlashRight",
+				(float) 0.2, gl);
 		AnimationDef gunManWalkingLeft = new AnimationDef(8, "/resources/mainCharacter/gunManWalkLeft", (float) 0.05,
 				gl);
 		AnimationDef gunManWalkingRight = new AnimationDef(8, "/resources/mainCharacter/gunManWalkRight", (float) 0.05,
@@ -292,6 +303,26 @@ public class JavaTemplate {
 		AnimationData robotAnimation = new AnimationData(robot, robotWalkLeft, (float) 0.25);
 		robot.animation = robotAnimation;
 		actors.add(robot);
+
+		// SOLDIER animation
+		AnimationDef soldierWalkLeft = new AnimationDef(4, "/resources/enemySoldier/SoldierWalkLeft", (float) 0.05, gl);
+		AnimationDef soldierWalkRight = new AnimationDef(4, "/resources/enemySoldier/SoldierWalkRight", (float) 0.05,
+				gl);
+		AnimationDef soldierAttackRight = new AnimationDef(4, "/resources/enemySoldier/SoldierAttackRight",
+				(float) 0.05, gl);
+		AnimationDef soldierAttackLeft = new AnimationDef(4, "/resources/enemySoldier/SoldierAttackLeft", (float) 0.05,
+				gl);
+		AnimationDef soldierShootRight = new AnimationDef(1, "/resources/enemySoldier/SoldierShootRight", (float) 0.05,
+				gl);
+		AnimationDef soldierShootLeft = new AnimationDef(1, "/resources/enemySoldier/SoldierShootLeft", (float) 0.05,
+				gl);
+		ShootingSpriteDef soldier = new ShootingSpriteDef(true);
+		soldier.health = 64;
+		soldier.spriteTex = glTexImageTGAFile(gl,
+				JavaTemplate.class.getResource("/resources/enemySoldier/SoldierWalkLeft0.tga"), robot.spriteSize);
+		AnimationData soldierAnimation = new AnimationData(soldier, soldierWalkLeft, (float) 0.25);
+		soldier.animation = soldierAnimation;
+		actors.add(soldier);
 
 		// Sound set
 		Sound bgMusic = Sound.loadFromFile("src/resources/sounds/ninja_game_music.wav");
@@ -344,7 +375,7 @@ public class JavaTemplate {
 						actors.get(i).spriteActualPos[1] += actors.get(i).fallSpeed - actors.get(i).jumpForce;
 						if (actors.get(i) == mainCharacter) {
 							if (collidesWithBackground(actors.get(i), bground) == -1) {
-								
+
 								actors.get(i).spriteActualPos[1] -= actors.get(i).fallSpeed + actors.get(i).jumpForce;
 								actors.get(i).spritePos[1] = (int) actors.get(i).spriteActualPos[1];
 								actors.get(i).touchedGround = true;
@@ -424,6 +455,15 @@ public class JavaTemplate {
 
 						actors.get(i).fallSpeed = 0;
 					}
+					while (collidesWithBackground(actors.get(i), bground) == 1) {
+						actors.get(i).spriteActualPos[1]++;
+
+					}
+//					while (collidesWithBackground(actors.get(i), bground) == -1) {
+//						System.out.println("ground collision");
+//						actors.get(i).spriteActualPos[1]--;
+//
+//					}
 
 				}
 
@@ -488,7 +528,7 @@ public class JavaTemplate {
 				if (slimes.get(i).animation.index == 3) {
 					slimes.get(i).animation.update((deltaTimeMS / 500));
 					// chance to jump
-					if (chanceForAction >= 100 && chanceForAction < 297) {
+					if (chanceForAction >= 100 && chanceForAction < 150) {
 						if (slimes.get(i).canJump) {
 							if (mainCharacter.spriteActualPos[0] > slimes.get(i).spriteActualPos[0]) {
 								dx = 3 * deltaTimeMS / 5;
@@ -505,7 +545,7 @@ public class JavaTemplate {
 						}
 					}
 					// chance to shoot
-					else if (chanceForAction >= 1 && chanceForAction < 40) {
+					else if (chanceForAction >= 1 && chanceForAction < 70) {
 						int run;
 						if (mainCharacter.spriteActualPos[0] > slimes.get(i).spriteActualPos[0]) {
 							run = 1;
@@ -522,7 +562,7 @@ public class JavaTemplate {
 
 					}
 					// chance to spawn clone
-					else if (chanceForAction >= 297 && slimesLength < 3) {
+					else if (chanceForAction >= 295 && slimesLength < 3) {
 						SpriteDef slimeClone = new SpriteDef(true);
 						slimes.add(slimeClone);
 						slimeClone.spriteActualPos[1] = slimes.get(i).spriteActualPos[1];
@@ -544,7 +584,7 @@ public class JavaTemplate {
 					}
 				}
 
-				if (slimeAnimationData.index == 4 && !slimes.get(i).touchedGround) {
+				if (slimeAnimationData.index == 4 && slimes.get(i).fallSpeed>0) {
 
 					// slime.spriteActualPos[1] -= dy;
 
@@ -575,7 +615,7 @@ public class JavaTemplate {
 					robotAnimationSpeed = 3000;
 				}
 				if (intersects(robot, camera) || robot.health < 34) {
-					if (Math.abs(robot.spritePos[0] - mainCharacter.spritePos[0]) < 30) {
+					if (Math.abs(robot.spritePos[0] - mainCharacter.spritePos[0]) < 30 && robot.health > 9) {
 						if (mainCharacter.spritePos[0] > robot.spritePos[0]) {
 							robotAnimation.setDefAnimationFix(robotAttackRight);
 							robotAnimation.update(deltaTimeMS / robotAnimationSpeed);
@@ -584,35 +624,143 @@ public class JavaTemplate {
 							robotAnimation.update(deltaTimeMS / robotAnimationSpeed);
 						}
 						if (intersects(robot, mainCharacter)) {
-							
-							if(robot.health <34){
+
+							if (robot.health < 34) {
 								mainCharacter.health -= .03;
-							}else{
+							} else {
 								mainCharacter.health -= .02;
 							}
 						}
 					} else {
-						if (mainCharacter.spritePos[0] > robot.spritePos[0]) {
-							robotAnimation.setDefAnimationFix(robotWalkRight);
-							robotAnimation.update(deltaTimeMS / robotAnimationSpeed);
-							robot.spriteActualPos[0] += deltaTimeMS / robotMoveSpeed;
-							if (collidesWithBackground(robot, bground) == 1
-									|| collidesWithBackground(robot, bground) == -1) {
-								robot.spriteActualPos[0] -= (deltaTimeMS) / robotMoveSpeed;
+						if (robot.health > 9) {
+
+							if (mainCharacter.spritePos[0] > robot.spritePos[0]) {
+								robotAnimation.setDefAnimationFix(robotWalkRight);
+								robotAnimation.update(deltaTimeMS / robotAnimationSpeed);
+								robot.spriteActualPos[0] += deltaTimeMS / robotMoveSpeed;
+								if (collidesWithBackground(robot, bground) == 1
+										|| collidesWithBackground(robot, bground) == -1) {
+									robot.spriteActualPos[0] -= (deltaTimeMS) / robotMoveSpeed;
+								}
+								robot.spritePos[0] = (int) robot.spriteActualPos[0];
+							} else if (mainCharacter.spritePos[0] < robot.spritePos[0]) {
+								robotAnimation.setDefAnimationFix(robotWalkLeft);
+								robotAnimation.update(deltaTimeMS / robotAnimationSpeed);
+								robot.spriteActualPos[0] -= deltaTimeMS / robotMoveSpeed;
+								if (collidesWithBackground(robot, bground) == 1
+										|| collidesWithBackground(robot, bground) == -1) {
+									robot.spriteActualPos[0] += (deltaTimeMS) / robotMoveSpeed;
+								}
+								robot.spritePos[0] = (int) robot.spriteActualPos[0];
 							}
-							robot.spritePos[0] = (int) robot.spriteActualPos[0];
-						} else if (mainCharacter.spritePos[0] < robot.spritePos[0]) {
-							robotAnimation.setDefAnimationFix(robotWalkLeft);
-							robotAnimation.update(deltaTimeMS / robotAnimationSpeed);
-							robot.spriteActualPos[0] -= deltaTimeMS / robotMoveSpeed;
-							if (collidesWithBackground(robot, bground) == 1
-									|| collidesWithBackground(robot, bground) == -1) {
-								robot.spriteActualPos[0] += (deltaTimeMS) / robotMoveSpeed;
+						}
+						else if(intersects(robot, camera)){
+							if (mainCharacter.spritePos[0] > robot.spritePos[0]) {
+								robotAnimation.setDefAnimationFix(robotWalkLeft);
+								robotAnimation.update(deltaTimeMS / robotAnimationSpeed);
+								robot.spriteActualPos[0] -= deltaTimeMS / robotMoveSpeed;
+								if (collidesWithBackground(robot, bground) == 1
+										|| collidesWithBackground(robot, bground) == -1) {
+									robot.spriteActualPos[0] += (deltaTimeMS) / robotMoveSpeed;
+								}
+								robot.spritePos[0] = (int) robot.spriteActualPos[0];
+							} else if (mainCharacter.spritePos[0] < robot.spritePos[0]) {
+								robotAnimation.setDefAnimationFix(robotWalkRight);
+								robotAnimation.update(deltaTimeMS / robotAnimationSpeed);
+								robot.spriteActualPos[0] += deltaTimeMS / robotMoveSpeed;
+								if (collidesWithBackground(robot, bground) == 1
+										|| collidesWithBackground(robot, bground) == -1) {
+									robot.spriteActualPos[0] -= (deltaTimeMS) / robotMoveSpeed;
+								}
+								robot.spritePos[0] = (int) robot.spriteActualPos[0];
 							}
-							robot.spritePos[0] = (int) robot.spriteActualPos[0];
 						}
 					}
 				}
+			}
+			// SOLDIER MOVEMENT
+
+			if (soldier.health > 0 && currentLevel == 3) {
+				System.out.println("SOLDIER COORDINATES" + soldier.spritePos[0] + " " + soldier.spritePos[1]);
+				int soldierAnimationSpeed = 5000;
+				double soldierMoveSpeed = 4;
+				if (soldier.health < 34) {
+					soldierMoveSpeed = 2.5;
+					soldierAnimationSpeed = 3000;
+				}
+				System.out.println("running");
+
+				if (Math.abs(soldier.spritePos[0] - mainCharacter.spritePos[0]) > 500) {
+					// CREATE BULLET
+					int run;
+					if (mainCharacter.spriteActualPos[0] > soldier.spriteActualPos[0]) {
+						run = 1;
+					} else {
+						run = -1;
+					}
+					if (soldier.currentTime > soldier.shootDelay) {
+						soldier.currentTime = 0;
+						SpriteDef sB = new BulletSpriteDef(
+								new int[] { soldier.spritePos[0] + 16, soldier.spritePos[1] + 20 },
+								new float[] { soldier.spritePos[0] + 16, soldier.spritePos[1] + 20 },
+								slimeBullet.spriteTex, slimeBullet.spriteSize, 0, run, true, "soldier");
+
+						bullets.add((BulletSpriteDef) sB);
+						actors.add(sB);
+
+					}
+					soldier.currentTime += deltaTimeMS / 3;
+					if (mainCharacter.spritePos[0] > soldier.spritePos[0]) {
+						soldierAnimation.setDefAnimationFix(soldierShootRight);
+						soldierAnimation.update(deltaTimeMS / soldierAnimationSpeed);
+					} else {
+						soldierAnimation.setDefAnimationFix(soldierShootLeft);
+						soldierAnimation.update(deltaTimeMS / soldierAnimationSpeed);
+					}
+
+				} else {
+					if (mainCharacter.spritePos[0] > soldier.spritePos[0]) {
+						if (Math.abs(soldier.spritePos[0] - mainCharacter.spritePos[0]) < 30) {
+							soldierAnimation.setDefAnimationFix(soldierAttackRight);
+							soldierAnimation.update(deltaTimeMS / soldierAnimationSpeed);
+							soldier.spritePos[0] = (int) soldier.spriteActualPos[0];
+						} else {
+							soldierAnimation.setDefAnimationFix(soldierWalkRight);
+							soldierAnimation.update(deltaTimeMS / soldierAnimationSpeed);
+							soldier.spriteActualPos[0] += deltaTimeMS / soldierMoveSpeed;
+							if (collidesWithBackground(soldier, bground) == 1
+									|| collidesWithBackground(soldier, bground) == -1) {
+								soldier.spriteActualPos[0] -= (deltaTimeMS) / soldierMoveSpeed;
+							}
+							soldier.spritePos[0] = (int) soldier.spriteActualPos[0];
+
+						}
+					} else if (mainCharacter.spritePos[0] < soldier.spritePos[0]) {
+						if (Math.abs(soldier.spritePos[0] - mainCharacter.spritePos[0]) < 30) {
+							soldierAnimation.setDefAnimationFix(soldierAttackLeft);
+							soldierAnimation.update(deltaTimeMS / soldierAnimationSpeed);
+							soldier.spritePos[0] = (int) soldier.spriteActualPos[0];
+						} else {
+							soldierAnimation.setDefAnimationFix(soldierWalkLeft);
+							soldierAnimation.update(deltaTimeMS / soldierAnimationSpeed);
+							soldier.spriteActualPos[0] -= deltaTimeMS / soldierMoveSpeed;
+							if (collidesWithBackground(soldier, bground) == 1
+									|| collidesWithBackground(soldier, bground) == -1) {
+								soldier.spriteActualPos[0] += (deltaTimeMS) / soldierMoveSpeed;
+							}
+							soldier.spritePos[0] = (int) soldier.spriteActualPos[0];
+						}
+					}
+					if (intersects(soldier, mainCharacter)) {
+
+						if (soldier.health < 34) {
+							mainCharacter.health -= .04;
+						} else {
+							mainCharacter.health -= .03;
+						}
+					}
+				}
+
 			}
 
 			// GUMAN MOVEMENT CONTROLS && movement
@@ -669,19 +817,19 @@ public class JavaTemplate {
 
 				// controlled jump based on gravity
 
-				if ((gunMan.def != gunDashLeft && gunMan.def !=gunDashRight) && kbState[KeyEvent.VK_UP] && mainCharacter.spritePos[1] > 0 && mainCharacter.canJump) {
-					if(mainCharacter.facing.equals("left")){
+				if ((gunMan.def != gunDashLeft && gunMan.def != gunDashRight) && kbState[KeyEvent.VK_UP]
+						&& mainCharacter.spritePos[1] > 0 && mainCharacter.canJump) {
+					if (mainCharacter.facing.equals("left")) {
 						gunMan.setDefAnimationFix(gunManJumpLeft);
 						gunMan.update((deltaTimeMS / 1000));
-					}
-					else{
+					} else {
 						gunMan.setDefAnimationFix(gunManJumpRight);
 						gunMan.update((deltaTimeMS / 1000));
 					}
 					// gunMan.setDef(gunManWalkingUp);
 					// gunMan.update((deltaTimeMS / 1000));
 					if (kbState[KeyEvent.VK_SHIFT] && mainCharacter.powerUps.contains("enhance")) {
-						mainCharacter.health-=.01;
+						mainCharacter.health -= .02;
 						mainCharacter.jumpForce = (float) 2.5;
 					} else {
 						mainCharacter.jumpForce = (float) 1.5;
@@ -695,7 +843,7 @@ public class JavaTemplate {
 
 					float speed = 0;
 					if (kbState[KeyEvent.VK_SHIFT] && mainCharacter.powerUps.contains("enhance")) {
-						mainCharacter.health-=.01;
+						mainCharacter.health -= .01;
 						gunMan.setDefAnimationFix(gunDashLeft);
 						gunMan.update((deltaTimeMS / 1000));
 						speed = (deltaTimeMS);
@@ -718,7 +866,7 @@ public class JavaTemplate {
 					mainCharacter.facing = "right";
 					float speed = 0;
 					if (kbState[KeyEvent.VK_SHIFT] && mainCharacter.powerUps.contains("enhance")) {
-						mainCharacter.health-=.01;
+						mainCharacter.health -= .01;
 						gunMan.setDefAnimationFix(gunDashRight);
 						gunMan.update((deltaTimeMS / 1000));
 						speed = (deltaTimeMS);
@@ -739,7 +887,9 @@ public class JavaTemplate {
 
 				// main player attacks
 				if (kbState[KeyEvent.VK_SPACE] && !kbState[KeyEvent.VK_RIGHT] && !kbState[KeyEvent.VK_LEFT]) {
-					
+					while (collidesWithBackground(mainCharacter, bground) != 0) {
+						mainCharacter.spriteActualPos[0]--;
+					}
 					// System.out.println("current time" +
 					// mainCharacter.currentTime);
 					// System.out.println("shoot delay" +
@@ -749,16 +899,15 @@ public class JavaTemplate {
 					shurikenThrow.play();
 					float speed = 0;
 					float animationSpeed = (deltaTimeMS / 1000);
-					int randomRange = (int) (Math.random()*10)+35;
-					System.out.println(randomRange);
+					int randomRange = (int) (Math.random() * 10) + 35;
 					if (kbState[KeyEvent.VK_SHIFT] && mainCharacter.powerUps.contains("enhance")) {
-						mainCharacter.health-=.02;
+						mainCharacter.health -= .02;
 						animationSpeed = (deltaTimeMS / 500);
-						mainCharacter.currentTime +=animationSpeed *500;
+						mainCharacter.currentTime += animationSpeed * 500;
 						speed = (deltaTimeMS);
-						 randomRange = (int) (Math.random()*60)+5;
+						randomRange = (int) (Math.random() * 60) + 5;
 
-					} 
+					}
 					if (mainCharacter.facing.equals("left")) {
 						gunMan.setDefAnimationFix(gunThrowLeft);
 					} else if (mainCharacter.facing.equals("right")) {
@@ -768,19 +917,23 @@ public class JavaTemplate {
 					gunMan.update(animationSpeed);
 					// add to bullets
 
-					if ((mainCharacter.currentTime  > mainCharacter.shootDelay)) {
+					if ((mainCharacter.currentTime > mainCharacter.shootDelay)) {
 						mainCharacter.currentTime = 0;
 						if (gunMan.getDef() == gunThrowLeft) {
 							bullets.add(new BulletSpriteDef(
-									new int[] { mainCharacter.spritePos[0] + 20, mainCharacter.spritePos[1] + randomRange },
-									new float[] { mainCharacter.spritePos[0] + 20, mainCharacter.spritePos[1] + randomRange },
+									new int[] { mainCharacter.spritePos[0] + 20,
+											mainCharacter.spritePos[1] + randomRange },
+									new float[] { mainCharacter.spritePos[0] + 20,
+											mainCharacter.spritePos[1] + randomRange },
 
 									bullet.spriteTex, bullet.spriteSize, 0, -1, true, "player"));
 
 						} else if (gunMan.getDef() == gunThrowRight) {
 							bullets.add(new BulletSpriteDef(
-									new int[] { mainCharacter.spritePos[0] + 70, mainCharacter.spritePos[1] + randomRange },
-									new float[] { mainCharacter.spritePos[0] + 70, mainCharacter.spritePos[1] + randomRange },
+									new int[] { mainCharacter.spritePos[0] + 70,
+											mainCharacter.spritePos[1] + randomRange },
+									new float[] { mainCharacter.spritePos[0] + 70,
+											mainCharacter.spritePos[1] + randomRange },
 									bullet.spriteTex, bullet.spriteSize, 0, 1, true, "player"));
 
 						}
@@ -795,13 +948,12 @@ public class JavaTemplate {
 					mainCharacter.slashCurrentTime = 0;
 					if (mainCharacter.facing.equals("left")) {
 						if (kbState[KeyEvent.VK_SHIFT] && mainCharacter.powerUps.contains("enhance")) {
-							mainCharacter.health-=8;
+							mainCharacter.health -= 8;
 
 							gunMan.setDefAnimationFix(gunSuperSlashLeft);
 
-						}
-						else{
-						gunMan.setDefAnimationFix(gunSlashLeft);
+						} else {
+							gunMan.setDefAnimationFix(gunSlashLeft);
 						}
 						while (collidesWithBackground(mainCharacter, bground) != 0) {
 							mainCharacter.spriteActualPos[0]--;
@@ -812,15 +964,15 @@ public class JavaTemplate {
 						if (kbState[KeyEvent.VK_SHIFT] && mainCharacter.powerUps.contains("enhance")) {
 							gunMan.setDefAnimationFix(gunSuperSlashRight);
 
-						}
-						else{
-						gunMan.setDefAnimationFix(gunSlashRight);
+						} else {
+							gunMan.setDefAnimationFix(gunSlashRight);
 						}
 
 						mainCharacter.slashing = 1;
 
 					}
-				} else if (!kbState[KeyEvent.VK_RIGHT] && !kbState[KeyEvent.VK_LEFT] && mainCharacter.slashing == 0 && mainCharacter.jumpForce==0) {
+				} else if (!kbState[KeyEvent.VK_RIGHT] && !kbState[KeyEvent.VK_LEFT] && mainCharacter.slashing == 0
+						&& mainCharacter.jumpForce == 0) {
 					if (mainCharacter.facing.equals("right")) {
 						gunMan.setDefAnimationFix(gunManIdleRight);
 					} else if (mainCharacter.facing.equals("left")) {
@@ -909,27 +1061,51 @@ public class JavaTemplate {
 			// System.out.println("middle");
 			// System.out.println(deltaTimeMS);
 
-			// Slash damage
+			// SLASH damage
 
 			for (SpriteDef s : slimes) {
 				if (mainCharacter.slashing != 0) {
 					if (intersects(s, mainCharacter) && s.hitDelayCurrent > s.hitDelay) {
-						if(gunMan.def == gunSuperSlashLeft||gunMan.def == gunSuperSlashRight)
-						{
-							s.health -= mainCharacter.slashDamage *2;
-						}
-						else{
-						s.health -= mainCharacter.slashDamage;
+						if (gunMan.def == gunSuperSlashLeft || gunMan.def == gunSuperSlashRight) {
+							s.health -= mainCharacter.slashDamage * 2;
+						} else {
+							s.health -= mainCharacter.slashDamage;
 						}
 						s.hitDelayCurrent = 0;
 					}
 				}
 				s.hitDelayCurrent += deltaTimeMS;
 			}
-
+			if (mainCharacter.slashing != 0) {
+				if (mainCharacter.slashing != 0) {
+					if (intersects(soldier, mainCharacter) && soldier.hitDelayCurrent > soldier.hitDelay) {
+						if (gunMan.def == gunSuperSlashLeft || gunMan.def == gunSuperSlashRight) {
+							soldier.health -= mainCharacter.slashDamage * 2;
+						} else {
+							soldier.health -= mainCharacter.slashDamage;
+						}
+						soldier.hitDelayCurrent = 0;
+					}
+				}
+				soldier.hitDelayCurrent += deltaTimeMS;
+			}
+			if (mainCharacter.slashing != 0) {
+				if (mainCharacter.slashing != 0) {
+					if (intersects(robot, mainCharacter) && robot.hitDelayCurrent > robot.hitDelay) {
+						if (gunMan.def == gunSuperSlashLeft || gunMan.def == gunSuperSlashRight) {
+							robot.health -= mainCharacter.slashDamage * 2;
+						} else {
+							robot.health -= mainCharacter.slashDamage;
+						}
+						robot.hitDelayCurrent = 0;
+					}
+				}
+				robot.hitDelayCurrent += deltaTimeMS;
+			}
 			// Draw Bullets
 			int bulletsSize = bullets.size();
 			for (int i = 0; i < bulletsSize; i++) {
+				System.out.println("Bullet size " + bulletsSize);
 				if (i >= bulletsSize) {
 					// System.out.println(i);
 					// System.out.println("ActualSize" + bullets.size());
@@ -937,25 +1113,41 @@ public class JavaTemplate {
 					break;
 
 				}
-				if (bullets.get(i).type.equals("player")) {
+				if (bullets.get(i).type.equals("player") || bullets.get(i).type.equals("soldier")) {
 					if (intersects(bullets.get(i), camera)) {
-						glDrawSprite(gl, bullet.spriteTex, bullets.get(i).spritePos[0] - camera.spritePos[0],
-								bullets.get(i).spritePos[1] - camera.spritePos[1], bullet.spriteSize[0],
-								bullet.spriteSize[1]);
+						glDrawSprite(gl, bullets.get(i).spriteTex, bullets.get(i).spritePos[0] - camera.spritePos[0],
+								bullets.get(i).spritePos[1] - camera.spritePos[1], bullets.get(i).spriteSize[0],
+								bullets.get(i).spriteSize[1]);
 						// System.out.println("drawing bullets");
 					}
-					if (bullets.get(i).rise > 0) {
-						bullets.get(i).spriteActualPos[1] += deltaTimeMS * 2;
+					if (bullets.get(i).type.equals("player")) {
+						if (bullets.get(i).rise > 0) {
+							bullets.get(i).spriteActualPos[1] += deltaTimeMS * 2;
 
-					} else if (bullets.get(i).rise < 0) {
-						bullets.get(i).spriteActualPos[1] -= deltaTimeMS * 2;
+						} else if (bullets.get(i).rise < 0) {
+							bullets.get(i).spriteActualPos[1] -= deltaTimeMS * 2;
 
-					} else if (bullets.get(i).run > 0) {
-						bullets.get(i).spriteActualPos[0] += deltaTimeMS * 2;
+						} else if (bullets.get(i).run > 0) {
+							bullets.get(i).spriteActualPos[0] += deltaTimeMS * 2;
 
-					} else if (bullets.get(i).run < 0) {
-						bullets.get(i).spriteActualPos[0] -= deltaTimeMS * 2;
+						} else if (bullets.get(i).run < 0) {
+							bullets.get(i).spriteActualPos[0] -= deltaTimeMS * 2;
 
+						}
+					} else if (bullets.get(i).type.equals("soldier")) {
+						if (bullets.get(i).rise > 0) {
+							bullets.get(i).spriteActualPos[1] += deltaTimeMS * 2;
+
+						} else if (bullets.get(i).rise < 0) {
+							bullets.get(i).spriteActualPos[1] -= deltaTimeMS * 2;
+
+						} else if (bullets.get(i).run > 0) {
+							bullets.get(i).spriteActualPos[0] += deltaTimeMS * 6;
+
+						} else if (bullets.get(i).run < 0) {
+							bullets.get(i).spriteActualPos[0] -= deltaTimeMS * 6;
+
+						}
 					}
 
 					bullets.get(i).spritePos[0] = (int) bullets.get(i).spriteActualPos[0];
@@ -963,12 +1155,69 @@ public class JavaTemplate {
 					if (bullets.get(i).spritePos[0] < 0 || bullets.get(i).spritePos[0] > bground.width * tileSize[0]) {
 						bullets.remove(i);
 						bulletsSize--;
-					} else if (intersects(bullets.get(i), robot)) {
+					} else if (intersects(bullets.get(i), robot) && bullets.get(i).type.equals("player")
+							&& robot.health >= 0) {
+
 						robot.health--;
+						bullets.remove(i);
+						bulletsSize--;
+					} else if (intersects(bullets.get(i), soldier) && bullets.get(i).type.equals("player")
+							&& soldier.health >= 0) {
+						soldier.health--;
+						bullets.remove(i);
+						bulletsSize--;
+					}
+					else if(intersects(bullets.get(i), mainCharacter)&& bullets.get(i).type.equals("soldier")){
+						mainCharacter.health-=5;
 						bullets.remove(i);
 						bulletsSize--;
 					}
 
+				}
+				if (i >= bulletsSize) {
+					// System.out.println(i);
+					// System.out.println("ActualSize" + bullets.size());
+					// System.out.println("Size" + bulletsSize);
+					break;
+
+				}
+				if (bullets.get(i).type.equals("slime")) {
+					if (intersects(bullets.get(i), mainCharacter)) {
+						actors.remove(bullets.get(i));
+
+						bullets.remove(i);
+						bulletsSize--;
+						mainCharacter.health--;
+					} else {
+						if (intersects(bullets.get(i), camera)) {
+							glDrawSprite(gl, bullets.get(i).spriteTex,
+									bullets.get(i).spritePos[0] - camera.spritePos[0],
+									bullets.get(i).spritePos[1] - camera.spritePos[1], bullets.get(i).spriteSize[0],
+									bullets.get(i).spriteSize[1]);
+							// System.out.println("drawing bullets");
+						}
+						if (!bullets.get(i).touchedGround) {
+							if (bullets.get(i).run > 0 && bullets.get(i).rise > 0) {
+								bullets.get(i).spriteActualPos[0] += deltaTimeMS / 3;
+
+							} else if (bullets.get(i).run < 0 && bullets.get(i).rise > 0) {
+								bullets.get(i).spriteActualPos[0] -= deltaTimeMS / 3;
+
+							}
+						}
+
+						bullets.get(i).spritePos[0] = (int) bullets.get(i).spriteActualPos[0];
+						bullets.get(i).spritePos[1] = (int) bullets.get(i).spriteActualPos[1];
+						bullets.get(i).currentTime += deltaTimeMS;
+
+						if (bullets.get(i).spritePos[0] < 0 || bullets.get(i).spritePos[0] > bground.width * tileSize[0]
+								|| bullets.get(i).currentTime > 15000) {
+							actors.remove(bullets.get(i));
+							bullets.remove(i);
+							bulletsSize--;
+						}
+
+					}
 				}
 				for (SpriteDef s : slimes) {
 					if (i >= bulletsSize) {
@@ -984,50 +1233,15 @@ public class JavaTemplate {
 							bulletsSize--;
 							s.health -= mainCharacter.bulletDamage;
 						}
-					} else if (bullets.get(i).type.equals("slime") && s.health > 0) {
-						if (intersects(bullets.get(i), mainCharacter)) {
-							bullets.remove(i);
-							bulletsSize--;
-							mainCharacter.health--;
-						} else {
-							if (intersects(bullets.get(i), camera)) {
-								glDrawSprite(gl, bullets.get(i).spriteTex,
-										bullets.get(i).spritePos[0] - camera.spritePos[0],
-										bullets.get(i).spritePos[1] - camera.spritePos[1], bullets.get(i).spriteSize[0],
-										bullets.get(i).spriteSize[1]);
-								// System.out.println("drawing bullets");
-							}
-							if (!bullets.get(i).touchedGround) {
-								if (bullets.get(i).run > 0 && bullets.get(i).rise > 0) {
-									bullets.get(i).spriteActualPos[0] += deltaTimeMS / 3;
-
-								} else if (bullets.get(i).run < 0 && bullets.get(i).rise > 0) {
-									bullets.get(i).spriteActualPos[0] -= deltaTimeMS / 3;
-
-								}
-							}
-
-							bullets.get(i).spritePos[0] = (int) bullets.get(i).spriteActualPos[0];
-							bullets.get(i).spritePos[1] = (int) bullets.get(i).spriteActualPos[1];
-							bullets.get(i).currentTime += deltaTimeMS;
-
-							if (bullets.get(i).spritePos[0] < 0
-									|| bullets.get(i).spritePos[0] > bground.width * tileSize[0]
-									|| bullets.get(i).currentTime > 15000) {
-								bullets.remove(i);
-								bulletsSize--;
-							}
-
-						}
 					}
+
 				}
 
 			}
 			// Draw the main character sprite
 
 			if (intersects(mainCharacter, camera) && mainCharacter.health > 0) {
-				System.out.println("X " + mainCharacter.spritePos[0]);
-				System.out.println("Y " + mainCharacter.spritePos[1]);
+				
 
 				mainCharacter.animation.draw(mainCharacter.spritePos[0] - camera.spritePos[0],
 						mainCharacter.spritePos[1] - camera.spritePos[1], gl);
@@ -1069,7 +1283,7 @@ public class JavaTemplate {
 				} else if (slimes.size() == 1 && slimes.get(i).health <= 0) {
 					regenGlobe.spritePos[0] = slimes.get(i).spritePos[0];
 					regenGlobe.spritePos[1] = slimes.get(i).spritePos[1];
-					regenGlobe.jumpForce = deltaTimeMS / 2;
+					regenGlobe.jumpForce = 2;
 					// to skip initial impact from gravity
 					// regenGlobe.spriteActualPos[1]=slimes.get(i).spritePos[1]-
 					// 150;
@@ -1102,16 +1316,28 @@ public class JavaTemplate {
 				// System.out.println("drawing main character");
 
 			}
+			if (intersects(enhanceGlobe, camera) && soldier.health <= 0
+					&& !mainCharacter.powerUps.contains("enhance")) {
+				enhanceGlobeAnimation.update((deltaTimeMS / 1000));
+				enhanceGlobe.animation.draw(enhanceGlobe.spritePos[0] - camera.spritePos[0],
+						enhanceGlobe.spritePos[1] - camera.spritePos[1], gl);
+				// System.out.println("drawing main character");
+
+			}
 			// PICK UP POWER UPS
 			if (intersects(regenGlobe, mainCharacter)) {
 				mainCharacter.powerUps.add("regenGlobe");
-				mainCharacter.powerUps.add("enhance");
+
 			}
-			if (mainCharacter.powerUps.contains("regenGlobe") && mainCharacter.health < 64 && mainCharacter.health>0) {
+			if (mainCharacter.powerUps.contains("regenGlobe") && mainCharacter.health < 64
+					&& mainCharacter.health > 0) {
 				mainCharacter.health += deltaTimeMS / 500;
 			}
 			if (intersects(sword, mainCharacter)) {
 				mainCharacter.powerUps.add("sword");
+			}
+			if (intersects(enhanceGlobe, mainCharacter)) {
+				mainCharacter.powerUps.add("enhance");
 			}
 
 			if (slimes.size() == 0 && currentLevel == 0) {
@@ -1132,6 +1358,7 @@ public class JavaTemplate {
 					}
 
 				}
+
 				for (int x = 5; x < bground.width; x++) {
 
 					for (int y = 0; y < bground.height - 10; y++) {
@@ -1140,7 +1367,7 @@ public class JavaTemplate {
 							bground.setTile(x, y, brickTileTex, true);
 						} else if (y == bground.height / 3 + 3 && x > 3 && x < 8) {
 							bground.setTile(x, y, brickTileTex, true);
-						} else if (y == bground.height / 3 + 4 && x > 10 && x < 14) {
+						} else if (y == bground.height / 3 && x > 10 && x < 14) {
 							bground.setTile(x, y, brickTileTex, true);
 						} else if (y == bground.height / 3 + 6 && x > 18 && x < 23) {
 							bground.setTile(x, y, brickTileTex, true);
@@ -1151,9 +1378,13 @@ public class JavaTemplate {
 					}
 
 				}
+				// soldier.spriteActualPos[0] = 2741;
+				// soldier.spriteActualPos[1] = 1498;
+				// soldier.spritePos[0] = (int)soldier.spriteActualPos[0];
+				// soldier.spritePos[1] = (int)soldier.spriteActualPos[1];
 
-				robot.spriteActualPos[1] = 1547;
-				robot.spritePos[1] = 1547;
+				robot.spriteActualPos[1] = 1545;
+				robot.spritePos[1] = 1545;
 				robot.spriteActualPos[0] = 2741;
 				robot.spritePos[0] = 2741;
 				changingLevel = false;
@@ -1171,8 +1402,87 @@ public class JavaTemplate {
 					sword.spritePos[0] = robot.spritePos[0];
 					sword.spritePos[1] = robot.spritePos[1];
 					sword.touchedGround = true;
-					sword.jumpForce = deltaTimeMS / 3;
+					sword.jumpForce = 1;
 					sword.spriteActualPos[1] -= sword.jumpForce;
+
+					soldier.spriteActualPos[0] = 2741;
+					soldier.spriteActualPos[1] = 1498;
+					soldier.spritePos[0] = (int) soldier.spriteActualPos[0];
+					soldier.spritePos[1] = (int) soldier.spriteActualPos[1];
+					
+					for (int x = 0; x < bground.width; x++) {
+
+						for (int y = 0; y < bground.height - 10; y++) {
+
+							if (y > (bground.height / 3 + 6)) {
+								bground.setTile(x, y, brickTileTex, true);
+							} else if (y == bground.height / 3 + 3 && x > 3 && x < 8) {
+								bground.setTile(x, y, brickTileTex, true);
+							} else if (y == bground.height / 3 && x > 10 && x < 14) {
+								bground.setTile(x, y, brickTileTex, true);
+							} else if (y == bground.height / 3 + 6 && x > 18 && x < 23) {
+								bground.setTile(x, y, brickTileTex, true);
+							} 
+							
+	                        if(x > 7 * bground.width / 8){
+	                            bground.setTile(x, y, 0, false);
+	                           
+	                        }
+	                       
+	                        if(y == (bground.height / 2 - 8) && x < 68 && x>9){
+	                            bground.setTile(x, y, brickTileTex, true);
+	                        }
+	                       
+	                        if(x > 6 * bground.width / 8 && y == (bground.height / 2 - 6) && x > 70 && x < 78){
+	                            bground.setTile(x, y, brickTileTex, true);
+	                        }
+	                       
+	                        if(x > 7 * bground.width / 8 && y == bground.height / 2 && x > 75 && x < 80){
+	                            bground.setTile(x, y, brickTileTex, true);
+	                        }
+	
+	                       
+	                        if(x > 7 * bground.width / 8 && y == (bground.height / 2 + 7) && x > 70 && x < 74){
+	                            bground.setTile(x, y, brickTileTex, true);
+	                        }
+	                       
+	                        if(x > 7 * bground.width / 8 && y == (bground.height / 2 + 9) && x > 75 && x < 80){
+	                            bground.setTile(x, y, brickTileTex, true);
+	                        }
+	                       
+	                        if(x > 7 * bground.width / 8 && y == (bground.height / 2 + 10) && x > 70 && x < 74){
+	                            bground.setTile(x, y, brickTileTex, true);
+	                        }
+							
+							
+
+						}
+
+					}
+
+					// DRAW LEVEL 3
+					  
+			
+					currentLevel = 3;
+				}
+			}
+
+			// DRAW SOLIDER
+			if (currentLevel == 3) {
+				if (intersects(soldier, camera) && soldier.health > 0) {
+					soldier.spritePos[0] = (int) soldier.spriteActualPos[0];
+					soldier.spritePos[1] = (int) soldier.spriteActualPos[1];
+					soldier.animation.draw(soldier.spritePos[0] - camera.spritePos[0],
+							soldier.spritePos[1] - camera.spritePos[1], gl);
+
+				} else if (soldier.health <= 0) {
+					enhanceGlobe.spritePos[0] = soldier.spritePos[0];
+					enhanceGlobe.spritePos[1] = soldier.spritePos[1];
+					enhanceGlobe.touchedGround = true;
+					enhanceGlobe.jumpForce = 1;
+					enhanceGlobe.spriteActualPos[1] -= enhanceGlobe.jumpForce;
+					System.out.print("ENHANCE X :Y " + enhanceGlobe.spritePos[0]+ " "+enhanceGlobe.spritePos[1]);
+					currentLevel = 4;
 
 				}
 			}
